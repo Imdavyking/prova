@@ -1,12 +1,12 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
-import HowItWorks from "./components/HowItWorks";
+import HowItWorks from "./components/HowitWorks";
 import Architecture from "./components/Architecture";
 import Demo from "./components/Demo";
 import WhyProva from "./components/WhyProva";
 import BusinessModel from "./components/BusinessModel";
-import CTA from "./components/CTA";
+import CTA from "./components/Cta";
 import Footer from "./components/Footer";
 
 export default function App() {
