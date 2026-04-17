@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+
+:root {
+  --orange:      #FF5500;
+  --orange-dim:  rgba(255, 85, 0, 0.15);
+  --orange-glow: rgba(255, 85, 0, 0.6);
+  --amber:       #FFB800;
+  --black:       #000000;
+  --surface:     #0A0A0A;
+  --surface-2:   #111111;
+  --surface-3:   #1A1A1A;
+  --border:      rgba(255, 85, 0, 0.15);
+  --border-dim:  rgba(255, 255, 255, 0.06);
+  --text:        #F0EEE8;
+  --text-muted:  #888;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+/* Grid background utility */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,85,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,85,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Noise overlay */
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+/* Orange glow button */
+.btn-orange {
+  background: var(--orange);
+  color: #000;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-orange::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+}
+.btn-orange:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 40px rgba(255,85,0,0.5);
+}
+
+/* Ghost button */
+.btn-ghost {
+  border: 1px solid rgba(255,85,0,0.4);
+  color: var(--orange);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.btn-ghost:hover {
+  border-color: var(--orange);
+  background: rgba(255,85,0,0.08);
+  box-shadow: 0 0 20px rgba(255,85,0,0.2);
+}
+
+/* Card */
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-dim);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  border-color: rgba(255,85,0,0.3);
+  box-shadow: 0 0 30px rgba(255,85,0,0.06);
+}
+
+/* Orange text glow */
+.text-glow {
+  text-shadow: 0 0 30px rgba(255,85,0,0.6);
+}
+
+/* Diagonal divider */
+.diagonal-divider {
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+}
+
+/* Proof hash animation */
+@keyframes scanLine {
+  0%   { top: 0; opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.scan-line {
+  animation: scanLine 2.5s linear infinite;
+  position: absolute;
+  left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  pointer-events: none;
+}
+
+/* Stagger animation helper classes */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+.animate-delay-700 { animation-delay: 700ms; }
+
+.opacity-0-init { opacity: 0; }
+
+/* Section spacing */
+.section {
+  padding: 120px 0;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 80px 0; }
+}
