@@ -19,7 +19,7 @@ import { config } from "./config";
 import { EthWatcher, TriggerEvent } from "./ethWatcher";
 import { ProofGenerator } from "./proofGenerator";
 import { SolanaSubmitter } from "./solanaSubmitter";
-import { RegistryLoader } from "./registryLoader";
+import { RegistryLoader } from "./registryloader";
 
 async function main(): Promise<void> {
   logger.info("🚀 Prova Monitor starting...");
