@@ -44,10 +44,14 @@ const FLOW_STAGES = [
   },
 ];
 
-function StageRow({ stage, status, isLast }:{
-    stage: (typeof FLOW_STAGES)[number];
-    status: "done" | "active" | "pending";
-    isLast: boolean;
+function StageRow({
+  stage,
+  status,
+  isLast,
+}: {
+  stage: (typeof FLOW_STAGES)[number];
+  status: "done" | "active" | "pending";
+  isLast: boolean;
 }) {
   const statusIcon = {
     done: <CheckCircle size={16} className="text-emerald-400" />,
@@ -173,7 +177,8 @@ export default function Architecture() {
                 },
                 {
                   label: "Relayers say it happened.",
-                  sub: "You trust them to not lie.",
+                  // FIXED: "trust them to not lie" → "trust them not to lie"
+                  sub: "You trust them not to lie.",
                 },
                 {
                   label: "Prova proves it happened.",

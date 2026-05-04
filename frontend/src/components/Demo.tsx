@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Play, ExternalLink, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 const DEMO_STEPS = [
   {
     id: 1,
     title: "Register Rule",
-    desc: "Alice deposits 0.1 ETH as execution fee and registers her condition on the Prova registry.",
+    desc: "Alice deposits 0.1 ETH as an execution fee and registers her condition on the Prova registry.",
     code: `provRegistry.register({
   condition: {
     chain:    "ethereum:1",
@@ -28,7 +28,8 @@ const DEMO_STEPS = [
   {
     id: 2,
     title: "Condition Triggered",
-    desc: "Block #21,847,293 is mined. Prova monitors detect Alice's balance has dropped below the threshold.",
+    // FIXED: "Prova monitors detect" → "Prova monitor nodes detect"
+    desc: "Block #21,847,293 is mined. Prova monitor nodes detect Alice's balance has dropped below the threshold.",
     code: `// Block #21,847,293 observed
 // wallet: 0x4F8a...9B2c
 // prev balance: 0.612 ETH
@@ -42,7 +43,7 @@ const DEMO_STEPS = [
   {
     id: 3,
     title: "ZK Proof Generated",
-    desc: "A Groth16 state proof is generated proving the balance drop happened in block #21,847,293.",
+    desc: "A Groth16 state proof is generated, proving the balance drop happened at block #21,847,293.",
     code: `// SP1 proof generation
 circuit:    groth16-bn254
 block:      21847293
@@ -61,7 +62,7 @@ proof_c: [0x2b4d8e0f..., 0x6a2c8e4b...]
   {
     id: 4,
     title: "Proof Verified + Executed",
-    desc: "The proof is submitted to Solana. The verifier confirms it on-chain. The transfer fires.",
+    desc: "The proof is submitted to Solana. The on-chain verifier confirms it. The transfer fires.",
     code: `// Solana program: prova_executor
 verifyProof(proof, publicInputs) → OK
 executeAction({
@@ -98,8 +99,9 @@ export default function Demo() {
             <p className="font-mono text-xs text-orange-500 tracking-[0.2em] uppercase mb-4">
               Demo
             </p>
+            {/* FIXED: "shows" → "proves" */}
             <h2 className="font-display font-black text-4xl md:text-5xl text-white leading-tight">
-              The demo that shows
+              The demo that proves
               <br />
               <span className="text-orange-500">the impossible.</span>
             </h2>

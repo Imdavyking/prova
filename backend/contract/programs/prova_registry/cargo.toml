@@ -1,0 +1,13 @@
+[package]
+name    = "prova_registry"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name       = "prova_registry"
+
+[dependencies]
+anchor-lang = { workspace = true }
+anchor-spl  = { workspace = true }
+borsh       = { workspace = true }

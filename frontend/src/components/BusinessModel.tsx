@@ -18,7 +18,8 @@ const STREAMS = [
   {
     icon: Layers,
     title: "Registry Standard",
-    desc: "As adoption grows, the Prova registry becomes the canonical cross-chain automation standard. Rule composition and premium condition types generate additional premium revenue.",
+    // FIXED: "additional premium revenue" → "additional revenue" (premium used twice)
+    desc: "As adoption grows, the Prova registry becomes the canonical cross-chain automation standard. Rule composition and premium condition types generate additional revenue.",
     metric: "Network moat",
     color: "#FF7700",
   },
