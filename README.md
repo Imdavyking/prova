@@ -146,33 +146,80 @@ prova/
 
 ## Prerequisites
 
-| Tool       | Version | Install                                                              |
-| ---------- | ------- | -------------------------------------------------------------------- |
-| Rust       | stable  | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`    |
-| Solana CLI | 1.18+   | `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`    |
-| Anchor CLI | 0.29.0  | `cargo install --git https://github.com/coral-xyz/anchor anchor-cli` |
-| Arcium CLI | latest  | `cargo install arcium-cli`                                           |
-| SP1        | latest  | `curl -L https://sp1.succinct.xyz \| bash && sp1up`                  |
-| Node.js    | 20+     | via `nvm`                                                            |
+| Tool       | Version    | Notes                                                                                                       |
+| ---------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
+| Rust       | stable     | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                                           |
+| Solana CLI | **2.3.0**  | `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`                                           |
+| Anchor CLI | **0.32.1** | `cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1`                          |
+| Arcium CLI | latest     | `curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ \| bash` — installs `arcup` then the CLI |
+| SP1        | latest     | `curl -L https://sp1.succinct.xyz \| bash && sp1up`                                                         |
+| Docker     | latest     | Required by Arcium — [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)              |
+| Node.js    | 20+        | via `nvm`                                                                                                   |
+
+> **Windows:** Arcium does not support Windows. Use WSL2 with Ubuntu.
 
 ---
 
-## Setup
+## Getting Started
 
-### 1. Clone and install
+### 1. Install tools
+
+```bash
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+
+# Solana CLI
+sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
+# Anchor
+cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1
+
+# Arcium (installs arcup version manager, then the CLI)
+curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ | bash
+# After install, verify:
+arcium --version
+
+# SP1
+curl -L https://sp1.succinct.xyz | bash && sp1up
+
+# Node / Yarn
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+nvm install 20
+npm install -g yarn
+```
+
+### 2. Clone and install
 
 ```bash
 git clone https://github.com/your-handle/prova
 cd prova
 
-# Install monitor dependencies
 cd monitor && yarn && cd ..
-
-# Install SDK dependencies
 cd sdk && yarn && cd ..
 ```
 
-### 2. Configure environment
+### 3. Wallet setup
+
+```bash
+# Main deploy wallet
+solana-keygen new -o ~/.config/solana/id.json
+
+# Separate monitor keypair (the off-chain bot that submits proofs)
+solana-keygen new -o ~/.config/solana/monitor.json
+
+# Point CLI to devnet and fund both
+solana config set --url devnet
+solana airdrop 4 ~/.config/solana/id.json
+solana airdrop 4 ~/.config/solana/monitor.json
+
+# Confirm balances
+solana balance ~/.config/solana/id.json
+solana balance ~/.config/solana/monitor.json
+```
+
+### 4. Configure environment
 
 ```bash
 # monitor/.env
@@ -185,85 +232,135 @@ EXECUTOR_PROGRAM_ID=EXECpRoVaXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 PROVER_MODE=local
 ARCIUM_CLUSTER=devnet
 
-# Optional: Succinct Prover Network key (for faster proving)
+# Optional: Succinct Prover Network key (faster proving ~20s vs ~90s local)
 SP1_PRIVATE_KEY=
-```
-
-### 3. Generate a monitor keypair
-
-```bash
-solana-keygen new -o ~/.config/solana/monitor.json
-solana airdrop 2 ~/.config/solana/monitor.json --url devnet
 ```
 
 ---
 
 ## Build
 
-### Solana programs
-
-```bash
-# Build both Anchor programs + the Arcium MXE
-arcium build
-```
-
-This compiles `prova_registry`, `prova_executor`, and the `execute_transfer.rs` Arcis circuit into the MXE binary.
-
-### SP1 prover
+### 1. SP1 prover circuit
 
 ```bash
 cd sp1-prover/program
 
-# Build the zkVM circuit to RISC-V ELF
+# Compile the zkVM circuit to RISC-V ELF
 cargo prove build
 
-# Get the verification key hash (put this in prova_executor/src/lib.rs → BALANCE_PROVER_VK_HASH)
+# Get the verification key hash
 cargo prove vk
 ```
 
-### Monitor
+Copy the vk hash output and paste it into `programs/prova_executor/src/lib.rs` as `BALANCE_PROVER_VK_HASH`. This ties the on-chain verifier to exactly your compiled circuit — if they don't match, every proof will be rejected.
 
 ```bash
-cd monitor
-yarn build
+cd ../..
+```
+
+### 2. Solana + Arcium programs
+
+```bash
+# Builds prova_registry, prova_executor, and the Arcis execute_transfer circuit
+arcium build
+```
+
+After this succeeds, two IDL files appear at `target/idl/` — these are automatically used by the monitor and SDK.
+
+### 3. Monitor
+
+```bash
+cd monitor && yarn build && cd ..
 ```
 
 ---
 
 ## Deploy
 
-### 1. Deploy Solana programs
+### 1. Deploy programs
 
 ```bash
-# Deploy to devnet
 arcium deploy --cluster devnet
-
-# Initialize the registry
-yarn ts-node scripts/initialize_registry.ts
-
-# Initialize the Arcium computation definition (once per deploy)
-yarn ts-node scripts/init_comp_def.ts
-
-# Fund the vault token account with USDC
-yarn ts-node scripts/fund_vault.ts --amount 10000
 ```
 
-### 2. Update Arcium.toml
+Save the three values from the output:
 
-After `arcium deploy`, paste the MXE key into `Arcium.toml`:
+```
+Registry Program ID:  REGSxxxx...
+Executor Program ID:  EXECxxxx...
+MXE Key:              mxe_xxxx...
+Cluster Offset:       456
+```
+
+### 2. Update config files
+
+**`Anchor.toml`**
+
+```toml
+[programs.devnet]
+prova_registry = "REGSxxxx..."
+prova_executor = "EXECxxxx..."
+```
+
+**`Arcium.toml`**
 
 ```toml
 [mxe]
 name    = "prova_executor"
-mxe_key = "YOUR_MXE_KEY_HERE"  # from arcium deploy output
+mxe_key = "mxe_xxxx..."
 
 [clusters.devnet]
 offset = 456
 ```
 
-### 3. Update program IDs
+Update `monitor/.env` with the real program IDs as well.
 
-After deploy, update `Anchor.toml`, `Arcium.toml`, and your `.env` with the real program IDs from the deploy output.
+### 3. Initialize on-chain state
+
+Run these scripts once after each fresh deploy:
+
+```bash
+# Initialize the registry global state (sets protocol fee, authority)
+yarn ts-node scripts/initialize_registry.ts
+
+# Register the execute_transfer computation definition with Arcium
+yarn ts-node scripts/init_comp_def.ts
+
+# Fund the vault token account with USDC for payouts
+yarn ts-node scripts/fund_vault.ts --amount 10000
+```
+
+`initialize_registry.ts` example:
+
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { PublicKey } from "@solana/web3.js";
+import RegistryIDL from "../target/idl/prova_registry.json";
+
+const provider = anchor.AnchorProvider.env();
+anchor.setProvider(provider);
+
+const program = new anchor.Program(
+  RegistryIDL as anchor.Idl,
+  new PublicKey(process.env.REGISTRY_PROGRAM_ID!),
+  provider,
+);
+
+const [registryStatePda] = PublicKey.findProgramAddressSync(
+  [Buffer.from("prova_registry")],
+  program.programId,
+);
+
+await program.methods
+  .initialize(50) // 50 bps = 0.5% protocol fee
+  .accounts({
+    registryState: registryStatePda,
+    authority: provider.wallet.publicKey,
+  })
+  .rpc();
+
+console.log("Registry initialized:", registryStatePda.toBase58());
+```
 
 ---
 
@@ -276,12 +373,7 @@ cd monitor
 yarn start
 ```
 
-The monitor will:
-
-1. Load all active rules from `prova_registry`
-2. Subscribe to new `RuleRegistered` events
-3. Poll Ethereum every ~12 seconds for condition triggers
-4. On trigger: generate SP1 proof → submit to Solana → queue Arcium computation → await callback
+The monitor loads all active rules, subscribes to new `RuleRegistered` events, then polls Ethereum every ~12 seconds:
 
 ```
 2026-05-04T12:00:00Z [info] 🚀 Prova Monitor starting...
@@ -291,7 +383,7 @@ The monitor will:
 2026-05-04T12:01:13Z [info] Generating ZK proof...
 2026-05-04T12:02:41Z [info] ✓ Proof generated in 88.2s
 2026-05-04T12:02:43Z [info] Rule → Triggered { sig: '5xGH...' }
-2026-05-04T12:02:44Z [info] Rule → Proving { sig: '7rKP...' }
+2026-05-04T12:02:44Z [info] Rule → Proving  { sig: '7rKP...' }
 2026-05-04T12:02:45Z [info] Proof tx queued { queueSig: '3mNQ...' }
 2026-05-04T12:02:45Z [info] Waiting for Arcium MXE computation...
 2026-05-04T12:03:10Z [info] ✓ Arcium computation finalized { finalizeSig: '9wBZ...' }
@@ -314,9 +406,110 @@ cargo run --release -- \
 
 ---
 
+## Testing
+
+### Anchor tests
+
+```bash
+# Runs the full test suite against localnet
+anchor test
+```
+
+Covers: initialize registry, register rule, mark triggered / proving / executed, cancel rule, executor proof verification.
+
+### Register a test rule
+
+```typescript
+// scripts/register_test_rule.ts
+import { ProvaSDK, SourceChain, ConditionType, ActionType } from "../sdk/src";
+import { Connection, Keypair } from "@solana/web3.js";
+import * as anchor from "@coral-xyz/anchor";
+import * as fs from "fs";
+
+const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+const rawKp = JSON.parse(
+  fs.readFileSync(process.env.HOME + "/.config/solana/id.json", "utf8"),
+);
+const keypair = Keypair.fromSecretKey(Uint8Array.from(rawKp));
+const sdk = new ProvaSDK(new anchor.Wallet(keypair), connection, {
+  registryProgramId: process.env.REGISTRY_PROGRAM_ID!,
+  executorProgramId: process.env.EXECUTOR_PROGRAM_ID!,
+  cluster: "devnet",
+});
+
+const result = await sdk.registerRule({
+  sourceChain: SourceChain.Ethereum,
+  conditionType: ConditionType.BalanceBelow,
+  watchAddress: "0xYOUR_ETH_WALLET",
+  tokenAddress: "0x0000000000000000000000000000000000000000",
+  thresholdWei: "500000000000000000", // 0.5 ETH
+  actionType: ActionType.TransferSpl,
+  recipient: keypair.publicKey.toBase58(),
+  tokenMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  actionAmount: "1000000", // 1 USDC
+  escrowedFeeLamports: 50_000,
+});
+
+console.log("Rule registered:", result);
+```
+
+```bash
+yarn ts-node scripts/register_test_rule.ts
+```
+
+The monitor terminal should immediately print:
+
+```
+[info] New rule registered { ruleId: '0xabcd...' }
+[info] Watching rule { address: '0xYOUR_ETH_WALLET' }
+```
+
+### Trigger the condition without spending real ETH
+
+Use Anvil to fork mainnet locally and move funds in a controlled way:
+
+```bash
+# Terminal 1 — fork mainnet at a specific block
+anvil \
+  --fork-url https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY \
+  --fork-block-number 21847293
+
+# Terminal 2 — drain the watched wallet below threshold
+cast send 0xRECIPIENT \
+  --value 0.2ether \
+  --from 0xYOUR_WATCHED_WALLET \
+  --rpc-url http://localhost:8545
+```
+
+Set `ETH_RPC_URL=http://localhost:8545` in `monitor/.env` and restart the monitor. The condition triggers on the next poll cycle.
+
+### Query rule status
+
+```bash
+yarn ts-node -e "
+const { ProvaSDK } = require('./sdk/src');
+const { Connection, Keypair } = require('@solana/web3.js');
+const anchor = require('@coral-xyz/anchor');
+const fs = require('fs');
+
+const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+const kp  = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(process.env.HOME + '/.config/solana/id.json', 'utf8'))));
+const sdk = new ProvaSDK(new anchor.Wallet(kp), connection, {
+  registryProgramId: process.env.REGISTRY_PROGRAM_ID,
+  executorProgramId: process.env.EXECUTOR_PROGRAM_ID,
+  cluster: 'devnet',
+});
+
+const rules = await sdk.getUserRules(kp.publicKey);
+console.log(rules.map(r => ({ id: r.ruleId.slice(0, 10), status: r.status })));
+"
+```
+
+---
+
 ## SDK Usage
 
-Use the SDK in your React frontend (install from `sdk/`):
+Use the SDK in your React frontend:
 
 ```typescript
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
@@ -329,25 +522,23 @@ function useProva() {
 }
 
 // Register a rule
-const sdk = useProva();
-
 const { txSig, ruleId, rulePda } = await sdk.registerRule({
   sourceChain: SourceChain.Ethereum,
   conditionType: ConditionType.BalanceBelow,
   watchAddress: "0x4F8a...9B2c",
   tokenAddress: "0x0000000000000000000000000000000000000000",
-  thresholdWei: "500000000000000000", // 0.5 ETH in wei
+  thresholdWei: "500000000000000000",
   actionType: ActionType.TransferSpl,
-  recipient: "7GsnYmPq...", // Solana pubkey
-  tokenMint: "EPjFWdd5...", // USDC mint
-  actionAmount: "100000000", // 100 USDC (6 decimals)
+  recipient: "7GsnYmPq...",
+  tokenMint: "EPjFWdd5...",
+  actionAmount: "100000000",
   escrowedFeeLamports: 50_000,
 });
 
 // Fetch all rules for the connected wallet
 const rules = await sdk.getUserRules(wallet.publicKey);
 
-// Poll until a rule executes
+// Poll until executed — drives the progress UI
 import { pollUntilExecuted, RuleStatus } from "@prova/sdk";
 
 await pollUntilExecuted(sdk, new PublicKey(rulePda), (status) => {
@@ -365,7 +556,7 @@ const unsubscribe = sdk.onRuleExecuted(({ ruleId, executedAt }) => {
 
 ## How the ZK Proof Works
 
-The SP1 circuit (`sp1-prover/program/src/main.rs`) runs inside the SP1 zkVM and proves the following in zero knowledge:
+The SP1 circuit (`sp1-prover/program/src/main.rs`) runs inside the SP1 zkVM and proves three things in zero knowledge:
 
 1. **Block header integrity** — the RLP-encoded block header hashes to the claimed `state_root`
 2. **Account inclusion** — the account at `wallet_address` exists in the state trie (Merkle-Patricia proof)
@@ -421,6 +612,19 @@ A rule can also transition to `CANCELLED` from `ACTIVE` if the owner calls `canc
 - **Fee slashing (TODO)** — in production, the executor network should stake and be slashable for submitting invalid proofs. Currently the monitor keypair is trusted.
 - **Proof replay** — rule IDs are unique and status transitions are one-way. A proof for an already-executed rule will fail the `RuleNotProving` check.
 - **Arcium MXE output** — the callback verifies the computation output against the cluster account before executing the transfer. A failed MPC computation returns an error, not a silent no-op.
+
+---
+
+## Common Errors
+
+| Error                                | Fix                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `Account not found` on registry init | Run `initialize_registry.ts` first                                                                            |
+| `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` doesn't match the built circuit — re-run `cargo prove vk` and update the constant    |
+| `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                    |
+| Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — switch to an Alchemy archive endpoint                    |
+| `RuleNotActive` on `markTriggered`   | Rule was already triggered — check its status with `getRuleStatus()`                                          |
+| Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120 seconds. Set `PROVER_MODE=network` to use Succinct Network (~20s) |
 
 ---
 
