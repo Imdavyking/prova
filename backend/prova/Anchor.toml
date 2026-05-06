@@ -7,6 +7,8 @@ skip-lint = false
 
 [programs.localnet]
 prova = "APaheDf1sS8ULYheJPm4tVQpKFCbH7uZtMsDzw5Eos4R"
+prova_executor = "5tNGoxGxNUWuTuToeCwNXBPtNNBWdjrwCAq2abTakwKt"
+prova_registry = "jwE73RVS7HafaL4qAwEAnwxU3YFpWeddhaHqRekUwpa"
 
 [registry]
 url = "https://api.apr.dev"
