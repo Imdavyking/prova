@@ -21,8 +21,10 @@ custom-panic = []
 
 
 [dependencies]
-anchor-lang = "0.32.1"
+anchor-lang = { workspace = true }
+anchor-spl  = { workspace = true }
+borsh       = { workspace = true }
 
 
 [lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(target_os = \"solana\")"] }
