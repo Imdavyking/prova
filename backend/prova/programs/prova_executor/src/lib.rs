@@ -147,9 +147,16 @@ pub mod prova_executor {
     ) -> Result<()> {
         // ── Step 1: Verify the SP1 Groth16 proof on-chain ──────────────────
         // sp1_solana::verify_proof uses Solana's BN254 precompiles (~280k CU)
-        verify_proof(&proof_bytes, BALANCE_PROVER_VK_HASH)
-            .map_err(|_| ExecutorError::InvalidProof)?;
-
+        // verify_proof(&proof_bytes, BALANCE_PROVER_VK_HASH)
+        //     .map_err(|_| ExecutorError::InvalidProof)?;
+        let vk = sp1_solana::GROTH16_VK_4_0_0_BYTES;
+        sp1_solana::verify_proof(
+            &proof_bytes,
+            &public_inputs_bytes,
+            &hex::encode(BALANCE_PROVER_VK_HASH),
+            vk,
+        )
+        .map_err(|_| ExecutorError::InvalidProof)?;
         msg!("SP1 proof verified for rule {:?}", public_inputs.rule_id);
 
         // ── Step 2: Match public inputs against the registered rule ─────────
