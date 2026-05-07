@@ -81,7 +81,7 @@ pub enum ExecutorError {
 
 // ─── Output type (matches execute_transfer Arcis circuit) ────────────────────
 
-#[derive(Clone, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
 pub struct ExecuteTransferOutput {
     pub approved: u64,
 }
@@ -261,7 +261,6 @@ pub mod prova_executor {
 
 // ─── Account contexts ─────────────────────────────────────────────────────────
 
-#[queue_comp_def_accounts("execute_transfer")]
 #[derive(Accounts)]
 pub struct InitExecuteTransferCompDef<'info> {
     #[account(mut)]
@@ -271,16 +270,15 @@ pub struct InitExecuteTransferCompDef<'info> {
     #[account(address = derive_mxe_pda!())]
     pub mxe_account: Account<'info, MXEAccount>,
     #[account(
-        mut,
-        address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER)
+        init,
+        payer = payer,
+        space = ComputationDefinitionAccount::SIZE,
+        address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER),
     )]
-    /// CHECK: initialized by Arcium
-    pub comp_def_account: UncheckedAccount<'info>,
-    #[account(address = derive_cluster_pda!(mxe_account, ExecutorError::AbortedComputation)
-)]
+    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    #[account(address = derive_cluster_pda!(mxe_account, ExecutorError::AbortedComputation))]
     pub cluster_account: Account<'info, Cluster>,
 }
-
 #[queue_computation_accounts("execute_transfer", fee_payer)]
 #[derive(Accounts)]
 #[instruction(
@@ -389,6 +387,8 @@ pub struct ExecuteTransferCallback<'info> {
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER))]
     pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+
+    pub computation_account: UncheckedAccount<'info>,
 
     /// CHECK: instructions sysvar
     #[account(address = ::anchor_lang::solana_program::sysvar::instructions::ID)]
