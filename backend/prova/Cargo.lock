@@ -5389,6 +5389,7 @@ dependencies = [
  "anchor-lang",
  "anchor-spl",
  "arcium-anchor",
+ "arcium-client",
  "borsh 1.6.1",
  "sp1-solana",
 ]

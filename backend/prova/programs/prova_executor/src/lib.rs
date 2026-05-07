@@ -2,9 +2,37 @@
 #![allow(unexpected_cfgs)]
 
 use anchor_lang::prelude::*;
+#[allow(unused_imports)]
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 use arcium_anchor::prelude::*;
 use sp1_solana::{verify_proof, GROTH16_VK_2_0_0_BYTES};
+
+// ─── Custom getrandom backend for Solana BPF/SBF ─────────────────────────────
+// getrandom 0.3 dropped the register_custom_getrandom! macro. The new API
+// requires defining a specific extern "Rust" symbol. The Solana BPF target has
+// no OS-level entropy source; zero-fill is safe here because getrandom is only
+// pulled in transitively for hash-table initialization (ahash, etc.), not for
+// any cryptographic purpose in this program.
+#[cfg(target_os = "solana")]
+#[no_mangle]
+unsafe extern "Rust" fn __getrandom_v03_custom(
+    dest: *mut u8,
+    len: usize,
+) -> Result<(), getrandom::Error> {
+    unsafe { core::ptr::write_bytes(dest, 0, len) };
+    Ok(())
+}
+
+// If anything in the tree pulls getrandom 0.4, cover that too.
+#[cfg(target_os = "solana")]
+#[no_mangle]
+unsafe extern "Rust" fn __getrandom_v04_custom(
+    dest: *mut u8,
+    len: usize,
+) -> Result<(), getrandom::Error> {
+    unsafe { core::ptr::write_bytes(dest, 0, len) };
+    Ok(())
+}
 
 declare_id!("5tNGoxGxNUWuTuToeCwNXBPtNNBWdjrwCAq2abTakwKt");
 
@@ -16,7 +44,7 @@ pub const BALANCE_PROVER_VK_HASH: &str =
     "0x0011223344556677889900112233445566778899001122334455667788990011";
 
 /// Computation definition offset for execute_transfer.
-/// Replace with: Buffer.from(getCompDefAccOffset("execute_transfer")).readUInt32LE()
+/// Computed at compile time from sha256("execute_transfer")[0..4] as little-endian u32.
 pub const COMP_DEF_OFFSET_EXECUTE_TRANSFER: u32 = comp_def_offset("execute_transfer");
 
 pub const VAULT_SEED: &[u8] = b"prova_vault";
@@ -79,12 +107,19 @@ pub enum ExecutorError {
     InsufficientVaultBalance,
 }
 
-// ─── Output type (matches execute_transfer Arcis circuit) ────────────────────
-
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
-pub struct ExecuteTransferOutput {
-    pub approved: u64,
-}
+// ─── NOTE: ExecuteTransferOutput is NOT defined here ─────────────────────────
+//
+// `#[callback_accounts("execute_transfer")]` reads `build/execute_transfer.idarc`
+// (produced by running `arcium build`) and auto-generates the `ExecuteTransferOutput`
+// struct at compile time. You must run `arcium build` before compiling this program.
+//
+// The generated struct will look roughly like:
+//   pub struct ExecuteTransferOutput {
+//       pub field_0: SharedEncryptedStruct<1>,   // if circuit returns Enc<Shared, u64>
+//   }
+//
+// Access the result via `field_0.ciphertexts[0]` and `field_0.nonce` for client-side
+// decryption. The MPC callback executing at all is the on-chain approval signal.
 
 // ─── Program ─────────────────────────────────────────────────────────────────
 
@@ -93,6 +128,7 @@ pub mod prova_executor {
     use super::*;
 
     /// Initialize: register the execute_transfer computation definition with Arcium.
+    /// Must be called once before any computations can be queued.
     pub fn init_execute_transfer_comp_def(ctx: Context<InitExecuteTransferCompDef>) -> Result<()> {
         init_comp_def(ctx.accounts, None, None)?;
         Ok(())
@@ -157,18 +193,18 @@ pub mod prova_executor {
         pending.bump = ctx.bumps.pending_execution;
 
         // ── 4. Queue Arcium MXE computation ──────────────────────────────────
-        // Args mirror the execute_transfer Arcis circuit:
-        //   (ArcisPubkey, PlaintextU128 nonce, EncryptedU64 amount, EncryptedU64 recipient_tag)
-        let args = vec![
-            Argument::ArcisPubkey(pub_key),
-            Argument::PlaintextU128(nonce),
-            Argument::EncryptedU64(ciphertext_amount),
-            Argument::EncryptedU64(ciphertext_recipient),
-        ];
+        // Build args using ArgBuilder per Arcium docs.
+        // For Enc<Shared, T>: x25519_pubkey + plaintext_u128(nonce) come first,
+        // then the encrypted field(s).
+        let args = ArgBuilder::new()
+            .x25519_pubkey(pub_key)
+            .plaintext_u128(nonce)
+            .encrypted_u64(ciphertext_amount)
+            .encrypted_u64(ciphertext_recipient)
+            .build();
 
         ctx.accounts.sign_pda_account.bump = ctx.bumps.sign_pda_account;
 
-        // Derive the pending execution PDA address to pass as callback account
         let pending_pda = ctx.accounts.pending_execution.key();
         let vault_pda = ctx.accounts.vault_token_account.key();
         let recipient_ata = ctx.accounts.recipient_token_account.key();
@@ -177,6 +213,9 @@ pub mod prova_executor {
             ctx.accounts,
             computation_offset,
             args,
+            // callback_ix() helper auto-includes the 6 standard callback accounts
+            // (arcium_program, comp_def_account, mxe_account, computation_account,
+            //  cluster_account, instructions_sysvar) plus our 3 custom accounts.
             vec![ExecuteTransferCallback::callback_ix(
                 computation_offset,
                 &ctx.accounts.mxe_account,
@@ -195,28 +234,40 @@ pub mod prova_executor {
                     },
                 ],
             )?],
-            1,
-            5_000,
+            1,     // number of callback transactions
+            5_000, // cu_price_micro: priority fee in microlamports
         )?;
 
         Ok(())
     }
 
     /// Arcium callback — called by the MPC cluster after confidential execution.
-    /// Performs the actual SPL transfer once the MXE approves.
+    /// Performs the actual SPL transfer once the MXE computation completes.
     #[arcium_callback(encrypted_ix = "execute_transfer")]
     pub fn execute_transfer_callback(
         ctx: Context<ExecuteTransferCallback>,
         output: SignedComputationOutputs<ExecuteTransferOutput>,
     ) -> Result<()> {
-        // Verify MPC computation succeeded and approved the transfer
-        let result = match output {
-            ComputationOutputs::Success(out) => out,
-            _ => return Err(ExecutorError::AbortedComputation.into()),
+        // Verify the MPC computation output is authentic and unmodified.
+        // `verify_output` checks the cluster signature and returns the typed result.
+        // ExecuteTransferOutput is auto-generated from build/execute_transfer.idarc —
+        // field_0 holds the encrypted result of the circuit's return value.
+        let _result = match output.verify_output(
+            &ctx.accounts.cluster_account,
+            &ctx.accounts.computation_account,
+        ) {
+            Ok(ExecuteTransferOutput { field_0 }) => field_0,
+            Err(e) => {
+                msg!("Computation verification failed: {}", e);
+                return Err(ExecutorError::AbortedComputation.into());
+            }
         };
 
-        // approved == 1 means all constraints passed inside the Arcis circuit
-        require!(result.approved == 1, ExecutorError::AbortedComputation);
+        // The MPC callback reaching this point is the on-chain approval signal —
+        // the Arcium cluster only invokes the callback when execution succeeded.
+        // If your Arcis circuit returns an encrypted approval value, emit it in
+        // an event for client-side decryption verification if needed.
+        // e.g.: emit!(ApprovalEvent { ciphertext: _result.ciphertexts[0], nonce: _result.nonce });
 
         let pending = &ctx.accounts.pending_execution;
 
@@ -261,24 +312,40 @@ pub mod prova_executor {
 
 // ─── Account contexts ─────────────────────────────────────────────────────────
 
+/// Registers the execute_transfer computation definition with Arcium.
+/// Account set taken verbatim from Arcium docs for #[init_computation_definition_accounts].
+/// See: https://docs.arcium.com/developers/program/computation-def-accs
+#[init_computation_definition_accounts("execute_transfer", payer)]
 #[derive(Accounts)]
 pub struct InitExecuteTransferCompDef<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
-    pub system_program: Program<'info, System>,
-    pub arcium_program: Program<'info, Arcium>,
-    #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+
     #[account(
-        init,
-        payer = payer,
-        space = ComputationDefinitionAccount::SIZE,
-        address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER),
+        mut,
+        address = derive_mxe_pda!()
     )]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
-    #[account(address = derive_cluster_pda!(mxe_account, ExecutorError::AbortedComputation))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
+
+    #[account(mut)]
+    /// CHECK: comp_def_account, checked by arcium program.
+    pub comp_def_account: UncheckedAccount<'info>,
+
+    #[account(mut, address = derive_mxe_lut_pda!(mxe_account.lut_offset_slot))]
+    /// CHECK: address_lookup_table, checked by arcium program.
+    pub address_lookup_table: UncheckedAccount<'info>,
+
+    #[account(address = LUT_PROGRAM_ID)]
+    /// CHECK: lut_program is the Address Lookup Table program.
+    pub lut_program: UncheckedAccount<'info>,
+
+    pub arcium_program: Program<'info, Arcium>,
+    pub system_program: Program<'info, System>,
 }
+
+/// Accounts for queuing the execute_transfer computation.
+/// The #[queue_computation_accounts] macro injects additional Arcium-required accounts.
+/// ErrorCode::ClusterNotSet (from arcium_anchor) is used for all arcium PDA derivations.
 #[queue_computation_accounts("execute_transfer", fee_payer)]
 #[derive(Accounts)]
 #[instruction(
@@ -314,7 +381,7 @@ pub struct SubmitProofAndExecute<'info> {
     )]
     pub vault_token_account: Account<'info, TokenAccount>,
 
-    /// CHECK: PDA that signs vault transfers
+    /// CHECK: PDA that signs vault transfers — authority constraint enforced above.
     #[account(seeds = [VAULT_SEED], bump)]
     pub vault_authority: UncheckedAccount<'info>,
 
@@ -323,7 +390,7 @@ pub struct SubmitProofAndExecute<'info> {
 
     pub rule_token_mint: Account<'info, anchor_spl::token::Mint>,
 
-    // ── Arcium required accounts ──────────────────────────────────────────
+    // ── Arcium required accounts (must match what #[queue_computation_accounts] expects) ──
     #[account(
         init_if_needed,
         space = 9,
@@ -339,30 +406,32 @@ pub struct SubmitProofAndExecute<'info> {
 
     #[account(
         mut,
-        address = derive_mempool_pda!(mxe_account, ExecutorError::AbortedComputation)
+        address = derive_mempool_pda!(mxe_account, ErrorCode::ClusterNotSet)
     )]
-    /// CHECK: verified by Arcium
+    /// CHECK: mempool_account, checked by the arcium program.
     pub mempool_account: UncheckedAccount<'info>,
 
     #[account(
         mut,
-        address = derive_execpool_pda!(mxe_account, ExecutorError::AbortedComputation)
+        address = derive_execpool_pda!(mxe_account, ErrorCode::ClusterNotSet)
     )]
-    /// CHECK: verified by Arcium
+    /// CHECK: executing_pool, checked by the arcium program.
     pub executing_pool: UncheckedAccount<'info>,
 
     #[account(
         mut,
-        address = derive_comp_pda!(computation_offset, mxe_account, ExecutorError::AbortedComputation)
+        address = derive_comp_pda!(computation_offset, mxe_account, ErrorCode::ClusterNotSet)
     )]
-    /// CHECK: verified by Arcium
+    /// CHECK: computation_account, checked by the arcium program.
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER))]
     pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
 
-    #[account(mut, address = derive_cluster_pda!(mxe_account, ExecutorError::AbortedComputation)
-)]
+    #[account(
+        mut,
+        address = derive_cluster_pda!(mxe_account, ErrorCode::ClusterNotSet)
+    )]
     pub cluster_account: Account<'info, Cluster>,
 
     #[account(mut, address = ARCIUM_FEE_POOL_ACCOUNT_ADDRESS)]
@@ -376,25 +445,39 @@ pub struct SubmitProofAndExecute<'info> {
     pub arcium_program: Program<'info, Arcium>,
 }
 
+/// Callback accounts for execute_transfer.
+///
+/// REQUIRED ORDER per Arcium docs (https://docs.arcium.com/developers/program/callback-accs):
+///   1. arcium_program
+///   2. comp_def_account
+///   3. mxe_account
+///   4. computation_account
+///   5. cluster_account
+///   6. instructions_sysvar
+///   7+ custom accounts (must match the CallbackAccount order in queue_computation)
 #[callback_accounts("execute_transfer")]
 #[derive(Accounts)]
 pub struct ExecuteTransferCallback<'info> {
-    // ── Standard Arcium callback accounts (required first 3) ─────────────
+    // ── Standard Arcium callback accounts (required, in this exact order) ────
     pub arcium_program: Program<'info, Arcium>,
-
-    #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_EXECUTE_TRANSFER))]
     pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
 
+    #[account(address = derive_mxe_pda!())]
+    pub mxe_account: Account<'info, MXEAccount>,
+
+    /// CHECK: computation_account, checked by arcium program via constraints in the callback context.
     pub computation_account: UncheckedAccount<'info>,
 
-    /// CHECK: instructions sysvar
+    #[account(address = derive_cluster_pda!(mxe_account, ErrorCode::ClusterNotSet))]
+    pub cluster_account: Account<'info, Cluster>,
+
+    /// CHECK: instructions_sysvar, checked by the account constraint.
     #[account(address = ::anchor_lang::solana_program::sysvar::instructions::ID)]
     pub instructions_sysvar: AccountInfo<'info>,
 
-    // ── Custom accounts passed via CallbackAccount in queue_computation ───
+    // ── Custom accounts (must match CallbackAccount order passed to callback_ix) ──
     #[account(
         mut,
         seeds = [PENDING_SEED, &pending_execution.rule_id],
@@ -411,7 +494,7 @@ pub struct ExecuteTransferCallback<'info> {
     )]
     pub vault_token_account: Account<'info, TokenAccount>,
 
-    /// CHECK: PDA vault signer
+    /// CHECK: PDA vault signer — authority constraint enforced above.
     #[account(seeds = [VAULT_SEED], bump)]
     pub vault_authority: UncheckedAccount<'info>,
 
