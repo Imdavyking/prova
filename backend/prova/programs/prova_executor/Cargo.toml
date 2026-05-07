@@ -1,24 +1,14 @@
 [package]
-name = "prova_executor"
+name    = "prova_executor"
 version = "0.1.0"
-description = "Created with Anchor"
 edition = "2021"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(target_os, values(\"solana\"))"] }
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "prova_executor"
-
-[features]
-default = []
-cpi = ["no-entrypoint"]
-no-entrypoint = []
-no-idl = []
-no-log-ix-name = []
-idl-build = ["anchor-lang/idl-build"]
-anchor-debug = []
-custom-heap = []
-custom-panic = []
-
+name       = "prova_executor"
 
 [dependencies]
 anchor-lang   = { workspace = true }
@@ -27,6 +17,5 @@ arcium-anchor = { workspace = true }
 sp1-solana    = { workspace = true }
 borsh         = { workspace = true }
 
-
-[lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ["cfg(target_os = \"solana\")"] }
+[features]
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
