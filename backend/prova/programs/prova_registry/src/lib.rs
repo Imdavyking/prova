@@ -11,7 +11,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
-declare_id!("REGSpRoVaXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+declare_id!("jwE73RVS7HafaL4qAwEAnwxU3YFpWeddhaHqRekUwpa");
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 

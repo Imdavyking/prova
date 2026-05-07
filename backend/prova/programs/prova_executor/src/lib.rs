@@ -15,7 +15,7 @@ use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 use arcium_anchor::prelude::*;
 use sp1_solana::verify_proof;
 
-declare_id!("EXECpRoVaXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+declare_id!("5tNGoxGxNUWuTuToeCwNXBPtNNBWdjrwCAq2abTakwKt");
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 

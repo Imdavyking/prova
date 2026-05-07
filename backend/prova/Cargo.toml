@@ -12,19 +12,16 @@ incremental = false
 codegen-units = 1
 
 [workspace.dependencies]
-anchor-lang     = { version = "0.29.0", features = ["init-if-needed"] }
-anchor-spl      = { version = "0.29.0" }
-arcium-anchor   = { version = "0.1.0" }
-arcis           = { version = "0.1.0" }
-sp1-solana      = { version = "1.0.0" }
-sp1-sdk         = { version = "1.0.0" }
-sp1-zkvm        = { version = "1.0.0" }
-solana-program  = { version = "1.18.0" }
-ethers          = { version = "2.0", features = ["rustls"] }
+anchor-lang      = { version = "0.32.1", features = ["init-if-needed"] }
+anchor-spl       = { version = "0.32.1" }
+arcium-anchor    = { version = "=0.9.7" }
+sp1-sdk          = { version = "4.0.0" }
+sp1-zkvm         = { version = "4.0.0", default-features = false }
+sp1-solana       = { version = "4.0.0" }
 alloy-primitives = { version = "0.7" }
-serde           = { version = "1.0", features = ["derive"] }
-serde_json      = "1.0"
-borsh           = { version = "1.0", features = ["derive"] }
-hex             = "0.4"
-anyhow          = "1.0"
-tokio           = { version = "1", features = ["full"] }
+serde            = { version = "1.0", features = ["derive"] }
+serde_json       = "1.0"
+borsh            = { version = "1.0", features = ["derive"] }
+hex              = "0.4"
+anyhow           = "1.0"
+tokio            = { version = "1", features = ["full"] }
