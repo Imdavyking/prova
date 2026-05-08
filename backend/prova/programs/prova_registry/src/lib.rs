@@ -3,7 +3,7 @@
 
 use anchor_lang::prelude::*;
 
-declare_id!("jwE73RVS7HafaL4qAwEAnwxU3YFpWeddhaHqRekUwpa");
+declare_id!("8ufXzkuCYS6bqeR2jmrjFMTC3LkSHt4EbfYx7jyr768j");
 
 pub const REGISTRY_SEED: &[u8] = b"prova_registry";
 pub const RULE_SEED: &[u8] = b"prova_rule";

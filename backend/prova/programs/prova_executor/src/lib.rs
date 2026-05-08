@@ -8,7 +8,7 @@ use arcium_anchor::prelude::*;
 use arcium_client::idl::arcium::types::CallbackAccount;
 use sp1_solana::{verify_proof, GROTH16_VK_2_0_0_BYTES};
 
-declare_id!("5tNGoxGxNUWuTuToeCwNXBPtNNBWdjrwCAq2abTakwKt");
+declare_id!("4fRmDoiA7kdx3pxuCUecxjvFh5huA2wb1raCQiwcAzjF");
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
