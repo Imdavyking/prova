@@ -7674,6 +7674,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "sp1-lib"
+version = "4.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e166e94b13146c65de433cf29acc1030f021414fbebfc24cd4eeaeb787ba3443"
+dependencies = [
+ "bincode",
+ "serde",
+ "sp1-primitives",
+]
+
+[[package]]
 name = "sp1-primitives"
 version = "4.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7982,8 +7993,10 @@ dependencies = [
  "cfg-if",
  "getrandom 0.2.17",
  "lazy_static",
+ "libm",
  "rand 0.8.6",
  "sha2 0.10.9",
+ "sp1-lib",
  "sp1-primitives",
 ]
 

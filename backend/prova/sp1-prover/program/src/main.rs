@@ -8,7 +8,7 @@
 #![no_main]
 sp1_zkvm::entrypoint!(main);
 
-use alloy_primitives::{keccak256, Address, B256, U256};
+use alloy_primitives::{keccak256, Address, U256};
 use serde::{Deserialize, Serialize};
 
 /// Public inputs committed to in the proof.
@@ -44,7 +44,7 @@ pub fn main() {
     let witness: ProofWitness = sp1_zkvm::io::read();
 
     // 1. Verify block header hashes to the expected state root
-    let header_hash = keccak256(&witness.block_header_rlp);
+    let _header_hash = keccak256(&witness.block_header_rlp);
     let state_root = extract_state_root_from_header(&witness.block_header_rlp);
     assert_eq!(
         state_root, public.state_root,
@@ -93,7 +93,7 @@ fn extract_state_root_from_header(header_rlp: &[u8]) -> [u8; 32] {
 /// Walks the proof nodes from root → leaf verifying hashes at each step.
 fn verify_merkle_proof(root: &[u8; 32], key: &[u8], proof: &[Vec<u8>], expected_value: &[u8]) {
     let mut current_hash = *root;
-    let mut key_nibbles = to_nibbles(key);
+    let key_nibbles = to_nibbles(key);
     let mut nibble_idx = 0;
 
     for node_rlp in proof {
