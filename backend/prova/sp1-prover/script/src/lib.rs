@@ -15,6 +15,7 @@
 use anyhow::{Context, Result};
 use sp1_sdk::{ProverClient, SP1Stdin, SP1ProofWithPublicValues};
 use serde::{Deserialize, Serialize};
+ use sp1_sdk::HashableKey;
 
 // ── Shared types (mirror of program/src/main.rs structs) ─────────────────────
 // These must match exactly what the zkVM program reads via sp1_zkvm::io::read().
@@ -110,12 +111,12 @@ async fn main() -> Result<()> {
         println!("  Using local CPU prover...");
     }
 
-    let client = ProverClient::new();
+    let client = ProverClient::from_env();
     let (pk, vk) = client.setup(PROVER_ELF);
 
     // ── 4. Generate Groth16 proof ────────────────────────────────────────
     let proof: SP1ProofWithPublicValues = client
-        .prove(&pk, stdin)
+        .prove(&pk, &stdin)
         .groth16()
         .run()
         .context("Proof generation failed")?;
@@ -128,11 +129,10 @@ async fn main() -> Result<()> {
     println!("✓ Proof verified locally");
 
     // ── 6. Serialize and write output ────────────────────────────────────
-    let vk_hash: [u8; 32] = vk.bytes32();
     let output_data = ProofOutput {
         proof_bytes:   hex::encode(proof.bytes()),
         public_inputs: serde_json::to_value(&public_inputs)?,
-        vk_hash:       hex::encode(vk_hash),
+        vk_hash:       vk.bytes32(),
     };
 
     let json = serde_json::to_string_pretty(&output_data)?;
