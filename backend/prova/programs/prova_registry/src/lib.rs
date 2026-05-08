@@ -10,7 +10,12 @@ pub const RULE_SEED: &[u8] = b"prova_rule";
 pub const MAX_RULES_PER_USER: u8 = 32;
 pub const MIN_FEE_LAMPORTS: u64 = 15_000;
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+// ─── Enums ────────────────────────────────────────────────────────────────────
+//
+// All variants are unit (no payload), so Copy is free and eliminates every
+// .clone() call that would otherwise appear throughout the program logic.
+
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq, Debug)]
 pub enum SourceChain {
     Ethereum,
     Base,
@@ -19,7 +24,7 @@ pub enum SourceChain {
     Polygon,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ConditionType {
     BalanceBelow,
     TokenBalanceBelow,
@@ -27,11 +32,22 @@ pub enum ConditionType {
     StorageSlotEquals,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ActionType {
     TransferSpl,
     TransferSol,
 }
+
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq, Debug)]
+pub enum RuleStatus {
+    Active,
+    Triggered,
+    Proving,
+    Executed,
+    Cancelled,
+}
+
+// ─── State ────────────────────────────────────────────────────────────────────
 
 #[account]
 #[derive(Debug)]
@@ -69,17 +85,24 @@ pub struct Rule {
     pub bump: u8,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
-pub enum RuleStatus {
-    Active,
-    Triggered,
-    Proving,
-    Executed,
-    Cancelled,
-}
-
 impl Rule {
-    pub const LEN: usize = 8 + 32 + 32 + 2 + 2 + 20 + 20 + 32 + 2 + 32 + 32 + 8 + 8 + 2 + 8 + 8 + 1;
+    pub const LEN: usize = 8   // discriminator
+        + 32  // owner
+        + 32  // rule_id
+        + 2   // source_chain
+        + 2   // condition_type
+        + 20  // watch_address
+        + 20  // token_address
+        + 32  // threshold_wei
+        + 2   // action_type
+        + 32  // recipient
+        + 32  // token_mint
+        + 8   // action_amount
+        + 8   // escrowed_fee
+        + 2   // status
+        + 8   // registered_at
+        + 8   // executed_at
+        + 1; // bump
 }
 
 // ─── Events ──────────────────────────────────────────────────────────────────
@@ -141,6 +164,23 @@ pub enum RegistryError {
     Overflow,
 }
 
+// ─── Params ──────────────────────────────────────────────────────────────────
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct RegisterRuleParams {
+    pub rule_id: [u8; 32],
+    pub source_chain: SourceChain,
+    pub condition_type: ConditionType,
+    pub watch_address: [u8; 20],
+    pub token_address: [u8; 20],
+    pub threshold_wei: [u8; 32],
+    pub action_type: ActionType,
+    pub recipient: Pubkey,
+    pub token_mint: Pubkey,
+    pub action_amount: u64,
+    pub escrowed_fee: u64,
+}
+
 // ─── Program ─────────────────────────────────────────────────────────────────
 
 #[program]
@@ -174,45 +214,39 @@ pub mod prova_registry {
         );
         require!(params.action_amount > 0, RegistryError::InvalidAmount);
 
-        let state = &mut ctx.accounts.registry_state;
-        let rule_count = state.total_rules;
-        state.total_rules = state
-            .total_rules
-            .checked_add(1)
-            .ok_or(RegistryError::Overflow)?;
+        // Increment rule counter before populating rule (checked_add guards overflow).
+        let rule_count = ctx.accounts.registry_state.total_rules;
+        ctx.accounts.registry_state.total_rules =
+            rule_count.checked_add(1).ok_or(RegistryError::Overflow)?;
 
-        // Save keys before taking mutable borrow of rule
         let owner_key = ctx.accounts.owner.key();
 
-        {
-            let rule = &mut ctx.accounts.rule;
-            rule.owner = owner_key;
-            rule.rule_id = params.rule_id;
-            rule.source_chain = params.source_chain.clone();
-            rule.condition_type = params.condition_type.clone();
-            rule.watch_address = params.watch_address;
-            rule.token_address = params.token_address;
-            rule.threshold_wei = params.threshold_wei;
-            rule.action_type = params.action_type.clone();
-            rule.recipient = params.recipient;
-            rule.token_mint = params.token_mint;
-            rule.action_amount = params.action_amount;
-            rule.escrowed_fee = params.escrowed_fee;
-            rule.status = RuleStatus::Active;
-            rule.registered_at = Clock::get()?.unix_timestamp;
-            rule.executed_at = 0;
-            rule.bump = ctx.bumps.rule;
-        }
-        // Mutable borrow of rule is dropped here
+        // Populate rule — all enum fields are Copy so no .clone() needed.
+        let rule = &mut ctx.accounts.rule;
+        rule.owner = owner_key;
+        rule.rule_id = params.rule_id;
+        rule.source_chain = params.source_chain;
+        rule.condition_type = params.condition_type;
+        rule.watch_address = params.watch_address;
+        rule.token_address = params.token_address;
+        rule.threshold_wei = params.threshold_wei;
+        rule.action_type = params.action_type;
+        rule.recipient = params.recipient;
+        rule.token_mint = params.token_mint;
+        rule.action_amount = params.action_amount;
+        rule.escrowed_fee = params.escrowed_fee;
+        rule.status = RuleStatus::Active;
+        rule.registered_at = Clock::get()?.unix_timestamp;
+        rule.executed_at = 0;
+        rule.bump = ctx.bumps.rule;
 
-        // Transfer execution fee from owner to rule PDA
-        let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
-            &owner_key,
-            &ctx.accounts.rule.key(),
-            params.escrowed_fee,
-        );
+        // Transfer escrowed fee from owner → rule PDA.
         anchor_lang::solana_program::program::invoke(
-            &transfer_ix,
+            &anchor_lang::solana_program::system_instruction::transfer(
+                &owner_key,
+                &ctx.accounts.rule.key(),
+                params.escrowed_fee,
+            ),
             &[
                 ctx.accounts.owner.to_account_info(),
                 ctx.accounts.rule.to_account_info(),
@@ -237,7 +271,7 @@ pub mod prova_registry {
             "Rule #{} registered by {} — escrowed {} lamports",
             rule_count,
             owner_key,
-            params.escrowed_fee
+            params.escrowed_fee,
         );
         Ok(())
     }
@@ -290,7 +324,7 @@ pub mod prova_registry {
         emit!(RuleExecuted {
             rule_id: rule.rule_id,
             tx_signature,
-            executed_at: now,
+            executed_at: now
         });
         Ok(())
     }
@@ -307,9 +341,9 @@ pub mod prova_registry {
         );
 
         let fee = rule.escrowed_fee;
+        let rule_id = rule.rule_id;
         rule.escrowed_fee = 0;
         rule.status = RuleStatus::Cancelled;
-        let rule_id = rule.rule_id;
 
         **rule.to_account_info().try_borrow_mut_lamports()? -= fee;
         **ctx
@@ -320,7 +354,7 @@ pub mod prova_registry {
 
         emit!(RuleCancelled {
             rule_id,
-            owner: ctx.accounts.owner.key(),
+            owner: ctx.accounts.owner.key()
         });
         Ok(())
     }
@@ -331,49 +365,38 @@ pub mod prova_registry {
     }
 }
 
-// ─── Params ──────────────────────────────────────────────────────────────────
-
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct RegisterRuleParams {
-    pub rule_id: [u8; 32],
-    pub source_chain: SourceChain,
-    pub condition_type: ConditionType,
-    pub watch_address: [u8; 20],
-    pub token_address: [u8; 20],
-    pub threshold_wei: [u8; 32],
-    pub action_type: ActionType,
-    pub recipient: Pubkey,
-    pub token_mint: Pubkey,
-    pub action_amount: u64,
-    pub escrowed_fee: u64,
-}
-
-// ─── Account contexts ────────────────────────────────────────────────────────
+// ─── Account contexts ─────────────────────────────────────────────────────────
+//
+// Rule is 249 bytes — boxed in every context so try_accounts() keeps its
+// stack frame below the 4096-byte SBF limit.
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     #[account(
         init,
-        payer  = authority,
-        space  = RegistryState::LEN,
-        seeds  = [REGISTRY_SEED],
+        payer = authority,
+        space = RegistryState::LEN,
+        seeds = [REGISTRY_SEED],
         bump,
     )]
     pub registry_state: Account<'info, RegistryState>,
+
     #[account(mut)]
     pub authority: Signer<'info>,
+
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
 #[instruction(params: RegisterRuleParams)]
 pub struct RegisterRule<'info> {
+    // Boxed: two large accounts in one context would push try_accounts() over budget.
     #[account(
         mut,
         seeds = [REGISTRY_SEED],
         bump  = registry_state.bump,
     )]
-    pub registry_state: Account<'info, RegistryState>,
+    pub registry_state: Box<Account<'info, RegistryState>>,
 
     #[account(
         init,
@@ -382,7 +405,7 @@ pub struct RegisterRule<'info> {
         seeds = [RULE_SEED, owner.key().as_ref(), &params.rule_id],
         bump,
     )]
-    pub rule: Account<'info, Rule>,
+    pub rule: Box<Account<'info, Rule>>,
 
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -393,21 +416,21 @@ pub struct RegisterRule<'info> {
 #[derive(Accounts)]
 pub struct MarkTriggered<'info> {
     #[account(mut, seeds = [RULE_SEED, rule.owner.as_ref(), &rule.rule_id], bump = rule.bump)]
-    pub rule: Account<'info, Rule>,
+    pub rule: Box<Account<'info, Rule>>,
     pub monitor: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct MarkProving<'info> {
     #[account(mut, seeds = [RULE_SEED, rule.owner.as_ref(), &rule.rule_id], bump = rule.bump)]
-    pub rule: Account<'info, Rule>,
+    pub rule: Box<Account<'info, Rule>>,
     pub monitor: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct MarkExecuted<'info> {
     #[account(mut, seeds = [RULE_SEED, rule.owner.as_ref(), &rule.rule_id], bump = rule.bump)]
-    pub rule: Account<'info, Rule>,
+    pub rule: Box<Account<'info, Rule>>,
     pub executor: SystemAccount<'info>,
     pub caller: Signer<'info>,
 }
@@ -415,7 +438,7 @@ pub struct MarkExecuted<'info> {
 #[derive(Accounts)]
 pub struct CancelRule<'info> {
     #[account(mut, seeds = [RULE_SEED, rule.owner.as_ref(), &rule.rule_id], bump = rule.bump)]
-    pub rule: Account<'info, Rule>,
+    pub rule: Box<Account<'info, Rule>>,
     #[account(mut)]
     pub owner: Signer<'info>,
 }
@@ -423,6 +446,6 @@ pub struct CancelRule<'info> {
 #[derive(Accounts)]
 pub struct AdminOnly<'info> {
     #[account(mut, seeds = [REGISTRY_SEED], bump = registry_state.bump, has_one = authority)]
-    pub registry_state: Account<'info, RegistryState>,
+    pub registry_state: Box<Account<'info, RegistryState>>,
     pub authority: Signer<'info>,
 }
