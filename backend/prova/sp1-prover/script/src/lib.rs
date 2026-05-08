@@ -138,7 +138,7 @@ async fn fetch_eth_proof_data(
     wallet:       &str,
     threshold_str: &str,
     rule_id_hex:  &str,
-) -> Result<(BalanceProofPublicInputs, BalanceProofWitness)> {
+) -> Result<(ProofPublicInputs, ProofWitness)> {
     let client = reqwest::Client::new();
 
     // ── eth_getBlockByNumber ──────────────────────────────────────────────
@@ -216,14 +216,14 @@ async fn fetch_eth_proof_data(
     let header_rlp = fetch_block_header_rlp(&client, rpc_url, &block_hex).await?;
 
     Ok((
-        BalanceProofPublicInputs {
+        ProofPublicInputs {
             block_number: block_number,
             state_root,
             wallet_address,
             threshold_wei,
             rule_id,
         },
-        BalanceProofWitness {
+        ProofWitness {
             block_header_rlp: header_rlp,
             account_proof,
             account_rlp,
