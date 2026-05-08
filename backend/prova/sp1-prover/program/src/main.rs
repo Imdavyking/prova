@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 /// Public inputs committed to in the proof.
 /// These are visible on-chain after verification.
 #[derive(Serialize, Deserialize)]
-pub struct ProofPublicInputs {
+pub struct BalanceProofPublicInputs {
     /// Ethereum block number the proof is for
     pub block_number: u64,
     /// Block state root (from block header)
@@ -29,7 +29,7 @@ pub struct ProofPublicInputs {
 
 /// Private witness — never revealed, only proven.
 #[derive(Serialize, Deserialize)]
-pub struct ProofWitness {
+pub struct BalanceProofWitness {
     /// RLP-encoded block header (contains state_root)
     pub block_header_rlp: Vec<u8>,
     /// Merkle-Patricia proof for the account node
@@ -40,8 +40,8 @@ pub struct ProofWitness {
 
 pub fn main() {
     // Read public inputs and private witness from SP1 stdin
-    let public: ProofPublicInputs = sp1_zkvm::io::read();
-    let witness: ProofWitness = sp1_zkvm::io::read();
+    let public: BalanceProofPublicInputs = sp1_zkvm::io::read();
+    let witness: BalanceProofWitness = sp1_zkvm::io::read();
 
     // 1. Verify block header hashes to the expected state root
     let _header_hash = keccak256(&witness.block_header_rlp);
