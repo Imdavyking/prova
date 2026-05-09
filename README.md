@@ -151,7 +151,7 @@ prova/
 | Rust       | stable     | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                                           |
 | Solana CLI | **2.3.0**  | `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`                                           |
 | Anchor CLI | **0.32.1** | `cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1`                          |
-| Arcium CLI | latest     | `curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ \| bash` — installs `arcup` then the CLI |
+| Arcium CLI | 0.9.7     | `curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ \| bash` — installs `arcup` then the CLI |
 | SP1        | latest     | `curl -L https://sp1.succinct.xyz \| bash && sp1up`                                                         |
 | Docker     | latest     | Required by Arcium — [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)              |
 | Node.js    | 20+        | via `nvm`                                                                                                   |
@@ -619,12 +619,37 @@ A rule can also transition to `CANCELLED` from `ACTIVE` if the owner calls `canc
 
 | Error                                | Fix                                                                                                           |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `arcium localnet` times out on macOS | macOS file descriptor limit is too low — the validator crashes before the RPC comes up (see below)            |
 | `Account not found` on registry init | Run `initialize_registry.ts` first                                                                            |
 | `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` doesn't match the built circuit — re-run `cargo prove vk` and update the constant    |
 | `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                    |
 | Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — switch to an Alchemy archive endpoint                    |
 | `RuleNotActive` on `markTriggered`   | Rule was already triggered — check its status with `getRuleStatus()`                                          |
 | Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120 seconds. Set `PROVER_MODE=network` to use Succinct Network (~20s) |
+
+### macOS: `arcium localnet` times out
+
+The error message says to increase `startup_wait`, but the real cause is the macOS kernel file descriptor cap. The Solana validator opens thousands of files during startup (RocksDB + account hash cache). When `kern.maxfilesperproc` is too low, all validator threads panic with `Too many open files (os error 24)` and the process dies — which is why the RPC never comes up no matter how long you wait.
+
+**Fix (run once before `arcium localnet`, requires sudo):**
+
+```bash
+sudo sysctl -w kern.maxfiles=1048576
+sudo sysctl -w kern.maxfilesperproc=1048576
+ulimit -n 1048576
+arcium localnet
+```
+
+**Make it permanent** so you don't have to repeat this after every reboot:
+
+```bash
+# /etc/sysctl.conf (create if it doesn't exist)
+echo "kern.maxfiles=1048576" | sudo tee -a /etc/sysctl.conf
+echo "kern.maxfilesperproc=1048576" | sudo tee -a /etc/sysctl.conf
+
+# ~/.zshrc (or ~/.bashrc)
+echo "ulimit -n 1048576" >> ~/.zshrc
+```
 
 ---
 
