@@ -324,11 +324,11 @@ cd backend/nodejs/monitor && yarn build && cd ../../..
 ### 1. Deploy Programs
 
 ```bash
-arcium deploy \
+rcium deploy \
   --keypair-path ~/.config/solana/id.json \
   --cluster-offset 0 \
   --recovery-set-size 3 \
-  --rpc-url https://api.devnet.solana.com
+  --rpc-url https://solana-devnet.g.alchemy.com/v2/YOUR_KEY
 ```
 
 ```bash
