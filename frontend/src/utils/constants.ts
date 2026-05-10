@@ -3,15 +3,16 @@
 // Copy .env.example → .env and fill in the values.
 
 export const REGISTRY_PROGRAM_ID =
-  import.meta.env.VITE_REGISTRY_PROGRAM_ID ??
+  (import.meta as any).env.VITE_REGISTRY_PROGRAM_ID ??
   "8idYgi4XUAJVKp2XS25tjfp77LrFiDWmpMiaT8bzrotw";
 
 export const EXECUTOR_PROGRAM_ID =
-  import.meta.env.VITE_EXECUTOR_PROGRAM_ID ??
+  (import.meta as any).env.VITE_EXECUTOR_PROGRAM_ID ??
   "9cgBVGFfx2XmMhD9L9U7b6xfgSe4MageWcWnn4NUi9dL";
 
 export const SOLANA_RPC_URL =
-  import.meta.env.VITE_SOLANA_RPC_URL ?? "https://api.devnet.solana.com";
+  (import.meta as any).env.VITE_SOLANA_RPC_URL ??
+  "https://api.devnet.solana.com";
 
 // Minimum fee the registry enforces (mirrors MIN_FEE_LAMPORTS in Rust)
 export const MIN_FEE_LAMPORTS = 15_000;

@@ -1,7 +1,7 @@
 // src/router/index.tsx
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "../App";
-import AppPage from "../pages/AppPage";
+import AppPage from "../pages/Apppage";
 
 const router = createBrowserRouter([
   {
