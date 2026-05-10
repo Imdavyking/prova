@@ -1,7 +1,16 @@
 diff --git a/node_modules/@arcium-hq/client/build/index.mjs b/node_modules/@arcium-hq/client/build/index.mjs
-index 40cf66c..8170fc7 100644
+index 40cf66c..ec19566 100644
 --- a/node_modules/@arcium-hq/client/build/index.mjs
 +++ b/node_modules/@arcium-hq/client/build/index.mjs
+@@ -14929,7 +14929,7 @@ async function uploadToCircuitAcc(provider, program, rawCircuitPart, rawCircuitI
+         for (let i = 0; i < nonAsyncTxCount; i++) {
+             optionalLog(shouldLog, `Sending resize tx ${i} of ${nonAsyncTxCount}`);
+             // eslint-disable-next-line no-await-in-loop
+-            const tx = await buildResizeTx(program, provider.publicKey, compDefAccInfo, mxeProgramId, rawCircuitIndex, MAX_REALLOC_PER_IX
++            const tx = await buildResizeTx(program, provider.publicKey, compDefAccInfo, mxeProgramId, rawCircuitIndex, (existingAcc?.data.length ?? MAX_REALLOC_PER_IX)
+                 + i * (MAX_REALLOC_PER_IX * MAX_EMBIGGEN_IX_PER_TX), rawCircuitPart.length);
+             // eslint-disable-next-line no-await-in-loop
+             const blockInfo = await provider.connection.getLatestBlockhash({ commitment: confirmOptions?.commitment || 'confirmed' });
 @@ -14980,6 +14980,19 @@ async function buildResizeTx(program, signerPubkey, compDefAccInfo, mxeProgramId
      for (let i = 0; i < ixCount; i++) {
          tx.add(ix);
