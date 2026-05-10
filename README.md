@@ -324,7 +324,7 @@ cd backend/nodejs/monitor && yarn build && cd ../../..
 ### 1. Deploy Programs
 
 ```bash
-rcium deploy \
+arcium deploy \
   --keypair-path ~/.config/solana/id.json \
   --cluster-offset 0 \
   --recovery-set-size 3 \
