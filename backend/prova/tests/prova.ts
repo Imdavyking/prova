@@ -9,7 +9,9 @@
 //   anchor test                          (spins up a fresh localnet)
 
 import * as anchor from "@coral-xyz/anchor";
-import { Program, BN } from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import BN from "bn.js";
+
 import {
   PublicKey,
   Keypair,
@@ -41,7 +43,7 @@ function readKpJson(path: string): Keypair {
 function registryStatePda(programId: PublicKey): [PublicKey, number] {
   return PublicKey.findProgramAddressSync(
     [Buffer.from("prova_registry")],
-    programId
+    programId,
   );
 }
 
@@ -49,18 +51,18 @@ function registryStatePda(programId: PublicKey): [PublicKey, number] {
 function rulePda(
   owner: PublicKey,
   ruleId: Buffer,
-  programId: PublicKey
+  programId: PublicKey,
 ): [PublicKey, number] {
   return PublicKey.findProgramAddressSync(
     [Buffer.from("prova_rule"), owner.toBuffer(), ruleId],
-    programId
+    programId,
   );
 }
 
 /** Generate a random 32-byte rule ID */
 function randomRuleId(): Buffer {
   return Buffer.from(
-    Array.from({ length: 32 }, () => Math.floor(Math.random() * 256))
+    Array.from({ length: 32 }, () => Math.floor(Math.random() * 256)),
   );
 }
 
@@ -70,14 +72,14 @@ function makeRuleParams(ruleId: Buffer, overrides: Partial<any> = {}): any {
     ruleId: Array.from(ruleId),
     sourceChain: { ethereum: {} },
     conditionType: { balanceBelow: {} },
-    watchAddress: Array.from(Buffer.alloc(20, 1)),   // dummy ETH address
-    tokenAddress: Array.from(Buffer.alloc(20, 0)),   // native ETH
+    watchAddress: Array.from(Buffer.alloc(20, 1)), // dummy ETH address
+    tokenAddress: Array.from(Buffer.alloc(20, 0)), // native ETH
     thresholdWei: Array.from(Buffer.alloc(32, 0).fill(1, 31)), // 1 wei
     actionType: { transferSpl: {} },
     recipient: Keypair.generate().publicKey,
     tokenMint: Keypair.generate().publicKey,
     actionAmount: new BN(1_000_000),
-    escrowed_fee: new BN(15_000),
+    escrowedFee: new BN(15_000),
     ...overrides,
   };
 }
@@ -109,11 +111,9 @@ describe("prova_registry", () => {
     console.log("initialize sig:", sig);
 
     const state = await registryProgram.account.registryState.fetch(
-      registryState
+      registryState,
     );
-    expect(state.authority.toBase58()).to.equal(
-      authority.publicKey.toBase58()
-    );
+    expect(state.authority.toBase58()).to.equal(authority.publicKey.toBase58());
     expect(state.protocolFeeBps).to.equal(100);
     expect(state.totalRules.toNumber()).to.equal(0);
     expect(state.paused).to.be.false;
@@ -123,7 +123,11 @@ describe("prova_registry", () => {
 
   it("registers a rule and escrows fee", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     const params = makeRuleParams(ruleId);
 
     const balBefore = await provider.connection.getBalance(authority.publicKey);
@@ -152,15 +156,19 @@ describe("prova_registry", () => {
 
     // Registry counter incremented
     const state = await registryProgram.account.registryState.fetch(
-      registryState
+      registryState,
     );
     expect(state.totalRules.toNumber()).to.equal(1);
   });
 
   it("rejects register_rule with fee below minimum", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
-    const params = makeRuleParams(ruleId, { escrowed_fee: new BN(100) }); // below 15_000
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
+    const params = makeRuleParams(ruleId, { escrowedFee: new BN(100) }); // below 15_000
 
     try {
       await registryProgram.methods
@@ -181,7 +189,11 @@ describe("prova_registry", () => {
 
   it("rejects register_rule with zero threshold", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     const params = makeRuleParams(ruleId, {
       thresholdWei: Array.from(Buffer.alloc(32, 0)), // all zeros
     });
@@ -208,10 +220,19 @@ describe("prova_registry", () => {
   it("marks a rule as triggered", async () => {
     // Register fresh rule
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
@@ -231,10 +252,19 @@ describe("prova_registry", () => {
   it("rejects mark_triggered on non-active rule", async () => {
     // Register + trigger a rule
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
     await registryProgram.methods
@@ -260,10 +290,19 @@ describe("prova_registry", () => {
 
   it("transitions rule to Proving", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
     await registryProgram.methods
@@ -286,10 +325,19 @@ describe("prova_registry", () => {
 
   it("rejects mark_proving on non-triggered rule", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
@@ -309,15 +357,31 @@ describe("prova_registry", () => {
 
   it("marks rule executed and pays executor fee", async () => {
     const executor = Keypair.generate();
-    // Fund executor so it exists on-chain
-    await provider.connection.requestAirdrop(executor.publicKey, LAMPORTS_PER_SOL);
+    // Fund executor via transfer from authority (avoids devnet airdrop rate limits)
+    const fundTx = new anchor.web3.Transaction().add(
+      anchor.web3.SystemProgram.transfer({
+        fromPubkey: authority.publicKey,
+        toPubkey: executor.publicKey,
+        lamports: LAMPORTS_PER_SOL / 10,
+      }),
+    );
+    await provider.sendAndConfirm(fundTx, [authority]);
     await new Promise((r) => setTimeout(r, 1000));
 
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
     await registryProgram.methods
@@ -331,12 +395,18 @@ describe("prova_registry", () => {
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
-    const execBalBefore = await provider.connection.getBalance(executor.publicKey);
+    const execBalBefore = await provider.connection.getBalance(
+      executor.publicKey,
+    );
     const txSig = Array.from(Buffer.alloc(64, 0xab)); // dummy tx sig
 
     const sig = await registryProgram.methods
       .markExecuted(txSig)
-      .accounts({ rule, executor: executor.publicKey, caller: authority.publicKey })
+      .accounts({
+        rule,
+        executor: executor.publicKey,
+        caller: authority.publicKey,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
@@ -348,7 +418,9 @@ describe("prova_registry", () => {
     expect(ruleAcc.executedAt.toNumber()).to.be.gt(0);
 
     // Executor received the fee
-    const execBalAfter = await provider.connection.getBalance(executor.publicKey);
+    const execBalAfter = await provider.connection.getBalance(
+      executor.publicKey,
+    );
     expect(execBalAfter - execBalBefore).to.equal(15_000);
   });
 
@@ -356,10 +428,19 @@ describe("prova_registry", () => {
 
   it("cancels an active rule and refunds fee to owner", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
@@ -383,15 +464,32 @@ describe("prova_registry", () => {
 
   it("rejects cancel_rule from non-owner", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
     const imposter = Keypair.generate();
-    await provider.connection.requestAirdrop(imposter.publicKey, LAMPORTS_PER_SOL);
+    // Fund imposter via transfer from authority
+    const fundTx2 = new anchor.web3.Transaction().add(
+      anchor.web3.SystemProgram.transfer({
+        fromPubkey: authority.publicKey,
+        toPubkey: imposter.publicKey,
+        lamports: LAMPORTS_PER_SOL / 10,
+      }),
+    );
+    await provider.sendAndConfirm(fundTx2, [authority]);
     await new Promise((r) => setTimeout(r, 1000));
 
     try {
@@ -408,10 +506,19 @@ describe("prova_registry", () => {
 
   it("rejects cancel_rule on triggered rule", async () => {
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     await registryProgram.methods
       .registerRule(makeRuleParams(ruleId))
-      .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+      .accounts({
+        registryState,
+        rule,
+        owner: authority.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
       .signers([authority])
       .rpc({ commitment: "confirmed" });
     await registryProgram.methods
@@ -441,16 +548,27 @@ describe("prova_registry", () => {
       .signers([authority])
       .rpc({ commitment: "confirmed" });
 
-    let state = await registryProgram.account.registryState.fetch(registryState);
+    let state = await registryProgram.account.registryState.fetch(
+      registryState,
+    );
     expect(state.paused).to.be.true;
 
     // Registering a rule while paused should fail
     const ruleId = randomRuleId();
-    const [rule] = rulePda(authority.publicKey, ruleId, registryProgram.programId);
+    const [rule] = rulePda(
+      authority.publicKey,
+      ruleId,
+      registryProgram.programId,
+    );
     try {
       await registryProgram.methods
         .registerRule(makeRuleParams(ruleId))
-        .accounts({ registryState, rule, owner: authority.publicKey, systemProgram: SystemProgram.programId })
+        .accounts({
+          registryState,
+          rule,
+          owner: authority.publicKey,
+          systemProgram: SystemProgram.programId,
+        })
         .signers([authority])
         .rpc({ commitment: "confirmed" });
       expect.fail("Should have thrown Paused");
@@ -487,14 +605,14 @@ describe("prova_executor", () => {
 
     const compDefPDA = PublicKey.findProgramAddressSync(
       [baseSeed, executorProgram.programId.toBuffer(), offset],
-      getArciumProgramId()
+      getArciumProgramId(),
     )[0];
 
     const mxeAccount = getMXEAccAddress(executorProgram.programId);
     const mxeAcc = await arciumProgram.account.mxeAccount.fetch(mxeAccount);
     const lutAddress = getLookupTableAddress(
       executorProgram.programId,
-      mxeAcc.lutOffsetSlot
+      mxeAcc.lutOffsetSlot,
     );
 
     const sig = await executorProgram.methods
@@ -519,15 +637,16 @@ describe("prova_executor", () => {
       rawCircuit,
       true,
       500,
-      { skipPreflight: true, commitment: "confirmed" }
+      { skipPreflight: true, commitment: "confirmed" },
     );
 
     console.log("execute_transfer circuit uploaded");
 
     // Verify comp def account was created
-    const compDef = await arciumProgram.account.computationDefinitionAccount.fetch(
-      compDefPDA
-    );
+    const compDef =
+      await arciumProgram.account.computationDefinitionAccount.fetch(
+        compDefPDA,
+      );
     expect(compDef).to.not.be.null;
   });
 });
