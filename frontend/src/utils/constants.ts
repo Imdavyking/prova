@@ -1,16 +1,20 @@
-/// <reference types="vite/client" />
-import { constants } from "starknet";
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
-export const GRAPH_QL_ENDPOINT = import.meta.env.VITE_GRAPH_QL_ENDPOINT;
-export const NATIVE_TOKEN =
-  "0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d";
-export const CHAIN_ID = constants.NetworkName.SN_SEPOLIA;
-export const ARGENT_WEBWALLET_URL =
-  process.env.NEXT_PUBLIC_ARGENT_WEBWALLET_URL ||
-  "https://sepolia-web.argent.xyz";
-export const FIELD_MODULUS = BigInt(
-  "21888242871839275222246405745257275088548364400416034343698204186575808495617",
-);
-export const U64_MAX = 18446744073709551615n;
-export const U128_MAX = 340282366920938463463374607431768211455n;
+// src/utils/constants.ts
+// Prova protocol constants — loaded from Vite env vars.
+// Copy .env.example → .env and fill in the values.
+
+export const REGISTRY_PROGRAM_ID =
+  import.meta.env.VITE_REGISTRY_PROGRAM_ID ??
+  "8idYgi4XUAJVKp2XS25tjfp77LrFiDWmpMiaT8bzrotw";
+
+export const EXECUTOR_PROGRAM_ID =
+  import.meta.env.VITE_EXECUTOR_PROGRAM_ID ??
+  "9cgBVGFfx2XmMhD9L9U7b6xfgSe4MageWcWnn4NUi9dL";
+
+export const SOLANA_RPC_URL =
+  import.meta.env.VITE_SOLANA_RPC_URL ?? "https://api.devnet.solana.com";
+
+// Minimum fee the registry enforces (mirrors MIN_FEE_LAMPORTS in Rust)
+export const MIN_FEE_LAMPORTS = 15_000;
+
+// Native ETH sentinel (zero address = watch native balance)
+export const NATIVE_ETH_ADDRESS = "0x0000000000000000000000000000000000000000";

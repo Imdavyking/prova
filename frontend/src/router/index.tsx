@@ -1,18 +1,19 @@
-// import { useRoutes } from "react-router-dom";
+// src/router/index.tsx
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from "../App";
+import AppPage from "../pages/AppPage";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/app",
+    element: <AppPage />,
+  },
+]);
 
-// function Router() {
-//   const routes = [
-//     {
-//       path: "/",
-//       element: <Home />,
-//     },
-//     {
-//       path: "/bridge",
-//       element: <Bridge />,
-//     },
-//   ];
-//   return useRoutes(routes);
-// }
-
-// export default Router;
+export default function Router() {
+  return <RouterProvider router={router} />;
+}
