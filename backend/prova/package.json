@@ -2,7 +2,9 @@
   "license": "ISC",
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
-    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
+    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
+    "patch": "npx patch-package @arcium-hq/client",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@arcium-hq/client": "0.9.7",
