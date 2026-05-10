@@ -7,6 +7,7 @@
 
 import { Connection, PublicKey, SystemProgram } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
 import type { AnchorWallet } from "@solana/wallet-adapter-react";
 import { REGISTRY_PROGRAM_ID, MIN_FEE_LAMPORTS } from "../utils/constants";
 import RegistryIDL from "../assets/json/prova_registry.json";
@@ -84,15 +85,11 @@ function makeProgram(
     preflightCommitment: "confirmed",
   });
   anchor.setProvider(provider);
-  return new anchor.Program(
-    RegistryIDL as anchor.Idl,
-    new PublicKey(REGISTRY_PROGRAM_ID),
-    provider,
-  );
-}
 
-function toAnchorEnum(value: string): Record<string, Record<string, never>> {
-  return { [value]: {} };
+  return new anchor.Program(
+    RegistryIDL as anchor.Idl, // IDL now contains the program address
+    provider, // ← provider goes here (2nd arg)
+  );
 }
 
 function hexTo20Bytes(hex: string): Uint8Array {
@@ -164,6 +161,11 @@ function generateRuleId(owner: PublicKey, nonce: number): string {
   return "0x" + Buffer.from(hash).toString("hex");
 }
 
+export function toAnchorEnum<T extends string>(value: T): any {
+  // Convert from your TS enum (PascalCase) to Anchor's expected format
+  const key = value.charAt(0).toLowerCase() + value.slice(1); // Ethereum → ethereum
+  return { [key]: {} } as const;
+}
 // ── Public API ────────────────────────────────────────────────────────────────
 
 export async function registerRule(
