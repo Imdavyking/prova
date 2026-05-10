@@ -690,66 +690,6 @@ describe("prova_executor", () => {
         Math.ceil(818544 / (10485760 - 9)) === 1 ? 818544 + 9 : "multi-acc",
       );
 
-      // Manual embiggen test
-      const arciumProg = getArciumProgram(provider);
-      const compDefAccInfo2 = {
-        pubkey: compDefPDA,
-        offset: Buffer.from(
-          getCompDefAccOffset("execute_transfer"),
-        ).readUInt32LE(0),
-      };
-
-      // try {
-      //   const ix = await arciumProg.methods
-      //     .embiggenRawCircuitAcc(
-      //       compDefAccInfo2.offset,
-      //       executorProgram.programId,
-      //       0,
-      //     )
-      //     .accounts({ signer: payer.publicKey })
-      //     .instruction();
-
-      //   const tx = new anchor.web3.Transaction();
-      //   tx.add(ix); // just ONE instruction
-
-      //   const blockInfo = await provider.connection.getLatestBlockhash({
-      //     commitment: "confirmed",
-      //   });
-      //   tx.recentBlockhash = blockInfo.blockhash;
-      //   tx.lastValidBlockHeight = blockInfo.lastValidBlockHeight;
-      //   tx.feePayer = payer.publicKey;
-
-      //   const sig = await provider.sendAndConfirm(tx, [payer], {
-      //     skipPreflight: false,
-      //     commitment: "confirmed",
-      //   });
-      //   console.log("Manual embiggen succeeded:", sig);
-      // } catch (e: any) {
-      //   console.error("Manual embiggen FAILED:", e.message);
-      //   console.error("Logs:", e.logs);
-      // }
-
-      const arciumProg2 = getArciumProgram(provider);
-      const compDefAccInfo3 = {
-        pubkey: compDefPDA,
-        offset: Buffer.from(
-          getCompDefAccOffset("execute_transfer"),
-        ).readUInt32LE(0),
-      };
-      const ix2 = await arciumProg2.methods
-        .embiggenRawCircuitAcc(
-          compDefAccInfo3.offset,
-          executorProgram.programId,
-          0,
-        )
-        .accounts({ signer: payer.publicKey })
-        .instruction();
-      const tx2 = new anchor.web3.Transaction();
-      tx2.add(ix2);
-      const sim = await provider.connection.simulateTransaction(tx2, [payer]);
-      console.log("Simulation logs:", sim.value.logs);
-      console.log("Simulation err:", JSON.stringify(sim.value.err));
-
       await uploadCircuit(
         provider,
         "execute_transfer",
