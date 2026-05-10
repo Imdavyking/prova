@@ -8,13 +8,13 @@ const DEMO_STEPS = [
     desc: "Alice deposits 0.1 ETH as an execution fee and registers her condition on the Prova registry.",
     code: `provRegistry.register({
   condition: {
-    chain:    "ethereum:1",
+    chain:    "ethereum:11155111",
     type:     "balance_below",
     address:  "0x4F8a...9B2c",
     threshold: parseEther("0.5")
   },
   action: {
-    chain:  "solana:mainnet",
+    chain:  "solana:devnet",
     type:   "transfer",
     token:  "USDC",
     amount: 100_000000n, // 100 USDC
@@ -37,7 +37,7 @@ const DEMO_STEPS = [
 //
 // Condition matched. Rule ID: #8294
 // Initiating ZK proof generation...`,
-    chain: "Ethereum Mainnet",
+    chain: "Ethereum Sepolia",
     chainColor: "#627EEA",
   },
   {
@@ -76,7 +76,7 @@ Slot: 295,847,102
 Status: confirmed ✓
 
 Executor fee paid: 0.002 SOL`,
-    chain: "Solana Testnet",
+    chain: "Solana Devnet",
     chainColor: "#14F195",
   },
 ];

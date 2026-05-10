@@ -1,8 +1,33 @@
 # PROVA
 
-**Trustless cross-chain automation. Prove a condition on one chain. Execute an action on another. No oracles. No relayers. No humans.**
+> **Trustless cross-chain automation.**  
+> Prove a condition on Ethereum Sepolia. Execute an action on Solana Devnet.  
+> No oracles. No relayers. No trusted parties.
 
-> Built for the Solana Frontier Hackathon 2026
+Built for the **Solana Frontier Hackathon 2026**.
+
+---
+
+## Table of Contents
+
+- [What is Prova?](#what-is-prova)
+- [How it Works](#how-it-works)
+- [Architecture](#architecture)
+- [Sponsor Tech](#sponsor-tech)
+- [Repository Structure](#repository-structure)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Build](#build)
+- [Deploy](#deploy)
+- [Run](#run)
+- [Testing](#testing)
+- [SDK Usage](#sdk-usage)
+- [ZK Proof Deep Dive](#zk-proof-deep-dive)
+- [Arcium Confidential Execution](#arcium-confidential-execution)
+- [Rule Status Lifecycle](#rule-status-lifecycle)
+- [Security Considerations](#security-considerations)
+- [Common Errors](#common-errors)
+- [Limitations](#limitations)
 
 ---
 
@@ -10,16 +35,20 @@
 
 Every existing cross-chain automation system — Gelato, Chainlink, Wormhole — asks you to trust something: a bot, a validator set, a committee. If that thing goes offline, lies, or gets hacked, your automation breaks.
 
-Prova is different. Instead of trusting a messenger to tell Solana what happened on Ethereum, Prova **proves** it happened using a ZK state proof. The Solana program verifies the math on-chain. Only then does it execute your action — privately, through an Arcium MXE.
+Prova is different. Instead of trusting a messenger to tell Solana what happened on Ethereum, Prova **proves** it happened using a ZK state proof. The Solana program verifies the math on-chain — only then does it execute your action, privately, through an Arcium MXE.
+
+---
+
+## How it Works
 
 ```
 User registers rule:  "IF ETH balance < 0.5 ETH → transfer 100 USDC on Solana"
                                     ↓
-Ethereum condition triggers at block #21,847,293
+Ethereum Sepolia condition triggers at a specific block
                                     ↓
 SP1 Groth16 proof generated: cryptographic proof that the balance dropped
                                     ↓
-Proof verified on Solana by the prova_executor program
+Proof verified on Solana Devnet by the prova_executor program
                                     ↓
 Arcium MXE evaluates transfer params privately (no MEV, no front-running)
                                     ↓
@@ -35,7 +64,7 @@ Zero trusted parties. ~28 seconds end-to-end. Any EVM chain → Solana.
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         SOURCE CHAIN                            │
-│                       (Ethereum / Base / etc.)                  │
+│                       (Ethereum Sepolia)                        │
 │                                                                 │
 │  User's wallet ──── condition: balance < threshold              │
 │  Lock contract ──── stores rule params + escrow                 │
@@ -52,7 +81,7 @@ Zero trusted parties. ~28 seconds end-to-end. Any EVM chain → Solana.
                            │  proof bytes + public inputs
                            ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                         SOLANA                                  │
+│                      SOLANA DEVNET                              │
 │                                                                 │
 │  prova_registry  ── stores rules, holds fee escrow              │
 │       │                                                         │
@@ -68,29 +97,29 @@ Zero trusted parties. ~28 seconds end-to-end. Any EVM chain → Solana.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Components
+### Component Summary
 
 | Layer                               | What it does                                                                                                        |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `sp1-prover/program`                | zkVM circuit (RISC-V). Verifies MPT account proof, asserts balance < threshold, commits public inputs               |
-| `sp1-prover/script`                 | CLI that fetches ETH state via `eth_getProof`, feeds it to the prover, outputs Groth16 proof JSON                   |
+| `sp1-prover/script`                 | CLI: fetches ETH state via `eth_getProof`, feeds it to the prover, outputs Groth16 proof JSON                       |
 | `programs/prova_registry`           | Anchor program. Stores rules, holds fee escrow, tracks rule status lifecycle                                        |
 | `programs/prova_executor`           | Arcium MXE program. Verifies SP1 proof on-chain, queues confidential computation, performs SPL transfer in callback |
 | `encrypted-ixs/execute_transfer.rs` | Arcis circuit. Runs inside MPC cluster. Validates transfer params privately                                         |
-| `monitor/`                          | TypeScript service. Watches Ethereum, triggers proof generation, submits to Solana                                  |
-| `sdk/`                              | TypeScript SDK for the frontend. Register rules, query status, subscribe to events                                  |
+| `monitor/`                          | TypeScript service. Watches Ethereum Sepolia, triggers proof generation, submits to Solana                          |
+| `sdk/`                              | TypeScript SDK. Register rules, query status, subscribe to events                                                   |
 
 ---
 
 ## Sponsor Tech
 
-| Sponsor             | Where it's used                                                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Arcium**          | MXE confidential execution layer — transfer params are encrypted with x25519+RescueCipher, evaluated privately across MPC nodes, no MEV possible |
-| **SP1 by Succinct** | Groth16 zkVM prover — proves Ethereum account state on-chain using BN254 precompiles on Solana                                                   |
-| **Phantom**         | Wallet UX layer for rule registration and status tracking                                                                                        |
-| **Privy**           | Embedded wallet auth — single login for both the source chain and Solana                                                                         |
-| **Coinbase**        | Base as source chain support + multi-chain settlement via their SDK                                                                              |
+| Sponsor             | Where it's used                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Arcium**          | MXE confidential execution — transfer params are encrypted with x25519+RescueCipher, evaluated privately across MPC nodes, no MEV possible |
+| **SP1 by Succinct** | Groth16 zkVM prover — proves Ethereum account state on-chain using BN254 precompiles on Solana                                             |
+| **Phantom**         | Wallet UX for rule registration and status tracking                                                                                        |
+| **Privy**           | Embedded wallet auth — single login for both source chain and Solana                                                                       |
+| **Coinbase**        | Base as source chain support + multi-chain settlement via their SDK                                                                        |
 
 ---
 
@@ -98,63 +127,56 @@ Zero trusted parties. ~28 seconds end-to-end. Any EVM chain → Solana.
 
 ```
 prova/
-├── Anchor.toml
-├── Arcium.toml
-├── Cargo.toml                          # Workspace root
+├── backend/
+│   ├── prova/                          # Anchor + Arcium workspace
+│   │   ├── Anchor.toml
+│   │   ├── Arcium.toml
+│   │   ├── Cargo.toml                  # Workspace root
+│   │   │
+│   │   ├── programs/
+│   │   │   ├── prova_registry/src/lib.rs   # Anchor: rule storage, fee escrow
+│   │   │   └── prova_executor/src/lib.rs   # Arcium MXE: proof verify + transfer
+│   │   │
+│   │   ├── encrypted-ixs/
+│   │   │   └── execute_transfer.rs         # Arcis circuit: confidential transfer
+│   │   │
+│   │   └── sp1-prover/
+│   │       ├── program/src/main.rs         # zkVM circuit: proves ETH balance < threshold
+│   │       └── script/src/main.rs          # CLI: fetch ETH state, generate proof
+│   │
+│   └── nodejs/
+│       ├── monitor/src/                # TypeScript off-chain monitor
+│       │   ├── index.ts                # Entry point
+│       │   ├── config.ts               # Env config
+│       │   ├── ethWatcher.ts           # Polls Ethereum Sepolia for triggers
+│       │   ├── proofGenerator.ts       # Calls SP1 prover subprocess
+│       │   ├── solanaSubmitter.ts      # Submits proof + queues Arcium computation
+│       │   └── registryLoader.ts       # Loads active rules from Solana
+│       │
+│       └── sdk/src/                    # TypeScript SDK
+│           ├── ProvaSDK.ts             # Main SDK class
+│           ├── registerRule.ts         # Register a rule on Solana
+│           └── ruleStatus.ts           # Query rule status + polling util
 │
-├── programs/
-│   ├── prova_registry/
-│   │   ├── Cargo.toml
-│   │   └── src/lib.rs                  # Anchor: rule storage, fee escrow
-│   └── prova_executor/
-│       ├── Cargo.toml
-│       └── src/lib.rs                  # Arcium MXE: proof verify + transfer
-│
-├── encrypted-ixs/
-│   └── execute_transfer.rs             # Arcis circuit: confidential transfer logic
-│
-├── sp1-prover/
-│   ├── program/
-│   │   ├── Cargo.toml
-│   │   └── src/main.rs                 # zkVM circuit: proves ETH balance < threshold
-│   └── script/
-│       ├── Cargo.toml
-│       └── src/main.rs                 # CLI: fetch ETH state, generate proof
-│
-├── monitor/
-│   ├── package.json
-│   └── src/
-│       ├── index.ts                    # Main entry point
-│       ├── config.ts                   # Env config
-│       ├── logger.ts                   # Winston logger
-│       ├── ethWatcher.ts               # Polls Ethereum for condition triggers
-│       ├── proofGenerator.ts           # Calls SP1 prover subprocess
-│       ├── solanaSubmitter.ts          # Submits proof + queues Arcium computation
-│       └── registryLoader.ts           # Loads active rules from Solana
-│
-└── sdk/
-    ├── package.json
+└── frontend/                           # React/Vite landing page
     └── src/
-        ├── index.ts                    # Public exports
-        ├── types.ts                    # Shared types and enums
-        ├── ProvaSDK.ts                 # Main SDK class
-        ├── registerRule.ts             # Register a rule on Solana
-        └── ruleStatus.ts               # Query rule status + polling util
+        ├── components/                 # Hero, Demo, Architecture, etc.
+        └── lib/                        # Actions, types, utilities
 ```
 
 ---
 
 ## Prerequisites
 
-| Tool       | Version    | Notes                                                                                                       |
-| ---------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
-| Rust       | stable     | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                                           |
-| Solana CLI | **2.3.0**  | `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`                                           |
-| Anchor CLI | **0.32.1** | `cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1`                          |
-| Arcium CLI | 0.9.7     | `curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ \| bash` — installs `arcup` then the CLI |
-| SP1        | latest     | `curl -L https://sp1.succinct.xyz \| bash && sp1up`                                                         |
-| Docker     | latest     | Required by Arcium — [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)              |
-| Node.js    | 20+        | via `nvm`                                                                                                   |
+| Tool       | Version    | Install                                                                            |
+| ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| Rust       | stable     | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                  |
+| Solana CLI | **2.3.0**  | `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`                  |
+| Anchor CLI | **0.32.1** | `cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1` |
+| Arcium CLI | **0.9.7**  | `curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ \| bash`        |
+| SP1        | latest     | `curl -L https://sp1.succinct.xyz \| bash && sp1up`                                |
+| Docker     | latest     | Required by Arcium — [docs.docker.com](https://docs.docker.com/engine/install/)    |
+| Node.js    | **20+**    | via `nvm`                                                                          |
 
 > **Windows:** Arcium does not support Windows. Use WSL2 with Ubuntu.
 
@@ -162,7 +184,7 @@ prova/
 
 ## Getting Started
 
-### 1. Install tools
+### 1. Install Tools
 
 ```bash
 # Rust
@@ -176,10 +198,9 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 # Anchor
 cargo install --git https://github.com/coral-xyz/anchor anchor-cli --tag v0.32.1
 
-# Arcium (installs arcup version manager, then the CLI)
+# Arcium
 curl --proto '=https' --tlsv1.2 -sSfL https://install.arcium.com/ | bash
-# After install, verify:
-arcium --version
+arcium --version   # verify
 
 # SP1
 curl -L https://sp1.succinct.xyz | bash && sp1up
@@ -190,17 +211,17 @@ nvm install 20
 npm install -g yarn
 ```
 
-### 2. Clone and install
+### 2. Clone and Install
 
 ```bash
-git clone https://github.com/your-handle/prova
+git clone https://github.com/Imdavyking/prova
 cd prova
 
-cd monitor && yarn && cd ..
-cd sdk && yarn && cd ..
+cd backend/nodejs/monitor && yarn && cd ../../..
+cd backend/nodejs/sdk    && yarn && cd ../../..
 ```
 
-### 3. Wallet setup
+### 3. Wallet Setup
 
 ```bash
 # Main deploy wallet
@@ -219,12 +240,18 @@ solana balance ~/.config/solana/id.json
 solana balance ~/.config/solana/monitor.json
 ```
 
-### 4. Configure environment
+### 4. Configure Environment
+
+Copy the example file and fill in your values:
+
+```bash
+cp frontend/.env.example frontend/.env
+```
 
 ```bash
 # monitor/.env
-ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
-ETH_RPC_WS_URL=wss://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
+ETH_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_KEY
+ETH_RPC_WS_URL=wss://eth-sepolia.g.alchemy.com/v2/YOUR_KEY
 SOLANA_RPC_URL=https://api.devnet.solana.com
 MONITOR_KEYPAIR_PATH=~/.config/solana/monitor.json
 REGISTRY_PROGRAM_ID=REGSpRoVaXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -232,58 +259,61 @@ EXECUTOR_PROGRAM_ID=EXECpRoVaXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 PROVER_MODE=local
 ARCIUM_CLUSTER=devnet
 
-# Optional: Succinct Prover Network key (faster proving ~20s vs ~90s local)
+# Optional: Succinct Prover Network key (proving: ~20s vs ~90s local)
 SP1_PRIVATE_KEY=
 ```
+
+> Get a free Alchemy Sepolia key at [dashboard.alchemy.com](https://dashboard.alchemy.com/).
 
 ---
 
 ## Build
 
-### 1. SP1 prover circuit
+### 1. SP1 Prover Circuit
 
 ```bash
-cd sp1-prover/program
+cd backend/prova/sp1-prover/program
 
-# Compile the zkVM circuit to RISC-V ELF
+# Compile zkVM circuit to RISC-V ELF
 cargo prove build
 
 # Get the verification key hash
-cargo prove vk
+cargo prove vkey
 ```
 
-Copy the vk hash output and paste it into `programs/prova_executor/src/lib.rs` as `BALANCE_PROVER_VK_HASH`. This ties the on-chain verifier to exactly your compiled circuit — if they don't match, every proof will be rejected.
+Copy the `vkey` hash and paste it into `programs/prova_executor/src/lib.rs` as `BALANCE_PROVER_VK_HASH`.
+This ties the on-chain verifier to your compiled circuit — a mismatch causes every proof to be rejected.
 
 ```bash
-cd ../..
+cd ../../../..
 ```
 
-### 2. Solana + Arcium programs
+### 2. Solana + Arcium Programs
 
 ```bash
 # Builds prova_registry, prova_executor, and the Arcis execute_transfer circuit
 arcium build
 ```
 
-After this succeeds, two IDL files appear at `target/idl/` — these are automatically used by the monitor and SDK.
+Two IDL files appear at `target/idl/` after a successful build — used automatically by the monitor and SDK.
 
 ### 3. Monitor
 
 ```bash
-cd monitor && yarn build && cd ..
+cd backend/nodejs/monitor && yarn build && cd ../../..
 ```
 
 ---
 
 ## Deploy
 
-### 1. Deploy programs
+### 1. Deploy Programs
 
 ```bash
 arcium deploy --cluster devnet
 ```
 
-Save the three values from the output:
+Note the three output values:
 
 ```
 Registry Program ID:  REGSxxxx...
@@ -292,9 +322,9 @@ MXE Key:              mxe_xxxx...
 Cluster Offset:       456
 ```
 
-### 2. Update config files
+### 2. Update Config Files
 
-**`Anchor.toml`**
+**`backend/prova/Anchor.toml`**
 
 ```toml
 [programs.devnet]
@@ -302,7 +332,7 @@ prova_registry = "REGSxxxx..."
 prova_executor = "EXECxxxx..."
 ```
 
-**`Arcium.toml`**
+**`backend/prova/Arcium.toml`**
 
 ```toml
 [mxe]
@@ -313,9 +343,9 @@ mxe_key = "mxe_xxxx..."
 offset = 456
 ```
 
-Update `monitor/.env` with the real program IDs as well.
+Also update `REGISTRY_PROGRAM_ID` and `EXECUTOR_PROGRAM_ID` in `monitor/.env`.
 
-### 3. Initialize on-chain state
+### 3. Initialize On-Chain State
 
 Run these scripts once after each fresh deploy:
 
@@ -330,7 +360,8 @@ yarn ts-node scripts/init_comp_def.ts
 yarn ts-node scripts/fund_vault.ts --amount 10000
 ```
 
-`initialize_registry.ts` example:
+<details>
+<summary><code>initialize_registry.ts</code> — example</summary>
 
 ```typescript
 import * as anchor from "@coral-xyz/anchor";
@@ -362,42 +393,44 @@ await program.methods
 console.log("Registry initialized:", registryStatePda.toBase58());
 ```
 
+</details>
+
 ---
 
 ## Run
 
-### Start the monitor
+### Start the Monitor
 
 ```bash
-cd monitor
+cd backend/nodejs/monitor
 yarn start
 ```
 
-The monitor loads all active rules, subscribes to new `RuleRegistered` events, then polls Ethereum every ~12 seconds:
+The monitor loads all active rules, subscribes to new `RuleRegistered` events, then polls Ethereum Sepolia every ~12 seconds:
 
 ```
 2026-05-04T12:00:00Z [info] 🚀 Prova Monitor starting...
 2026-05-04T12:00:01Z [info] Loaded 3 active rules
 2026-05-04T12:00:01Z [info] ETH watcher started { interval: 12000 }
-2026-05-04T12:01:13Z [info] 🔔 Condition triggered! { ruleId: '0xdeadbeef...', block: 21847293 }
+2026-05-04T12:01:13Z [info] 🔔 Condition triggered! { ruleId: '0xdeadbeef...', block: 7234891 }
 2026-05-04T12:01:13Z [info] Generating ZK proof...
 2026-05-04T12:02:41Z [info] ✓ Proof generated in 88.2s
-2026-05-04T12:02:43Z [info] Rule → Triggered { sig: '5xGH...' }
-2026-05-04T12:02:44Z [info] Rule → Proving  { sig: '7rKP...' }
-2026-05-04T12:02:45Z [info] Proof tx queued { queueSig: '3mNQ...' }
+2026-05-04T12:02:43Z [info] Rule → Triggered  { sig: '5xGH...' }
+2026-05-04T12:02:44Z [info] Rule → Proving    { sig: '7rKP...' }
+2026-05-04T12:02:45Z [info] Proof tx queued   { queueSig: '3mNQ...' }
 2026-05-04T12:02:45Z [info] Waiting for Arcium MXE computation...
 2026-05-04T12:03:10Z [info] ✓ Arcium computation finalized { finalizeSig: '9wBZ...' }
 2026-05-04T12:03:10Z [info] ✅ Rule fully executed! { ruleId: '0xdeadbeef...' }
 ```
 
-### Generate a proof manually
+### Generate a Proof Manually
 
 ```bash
-cd sp1-prover/script
+cd backend/prova/sp1-prover/script
 
 cargo run --release -- \
-  --rpc-url https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY \
-  --block 21847293 \
+  --rpc-url https://eth-sepolia.g.alchemy.com/v2/YOUR_KEY \
+  --block 7234891 \
   --wallet 0x4F8a...9B2c \
   --threshold 500000000000000000 \
   --rule-id 0xdeadbeef... \
@@ -408,16 +441,16 @@ cargo run --release -- \
 
 ## Testing
 
-### Anchor tests
+### Anchor Tests
 
 ```bash
-# Runs the full test suite against localnet
+# Full test suite against localnet
 anchor test
 ```
 
 Covers: initialize registry, register rule, mark triggered / proving / executed, cancel rule, executor proof verification.
 
-### Register a test rule
+### Register a Test Rule
 
 ```typescript
 // scripts/register_test_rule.ts
@@ -440,7 +473,7 @@ const sdk = new ProvaSDK(new anchor.Wallet(keypair), connection, {
 const result = await sdk.registerRule({
   sourceChain: SourceChain.Ethereum,
   conditionType: ConditionType.BalanceBelow,
-  watchAddress: "0xYOUR_ETH_WALLET",
+  watchAddress: "0xYOUR_SEPOLIA_WALLET",
   tokenAddress: "0x0000000000000000000000000000000000000000",
   thresholdWei: "500000000000000000", // 0.5 ETH
   actionType: ActionType.TransferSpl,
@@ -461,18 +494,18 @@ The monitor terminal should immediately print:
 
 ```
 [info] New rule registered { ruleId: '0xabcd...' }
-[info] Watching rule { address: '0xYOUR_ETH_WALLET' }
+[info] Watching rule { address: '0xYOUR_SEPOLIA_WALLET' }
 ```
 
-### Trigger the condition without spending real ETH
+### Trigger the Condition Without Spending Real ETH
 
-Use Anvil to fork mainnet locally and move funds in a controlled way:
+Use Anvil to fork Sepolia locally and drain the watched wallet in a controlled way:
 
 ```bash
-# Terminal 1 — fork mainnet at a specific block
+# Terminal 1 — fork Sepolia at a specific block
 anvil \
-  --fork-url https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY \
-  --fork-block-number 21847293
+  --fork-url https://eth-sepolia.g.alchemy.com/v2/YOUR_KEY \
+  --fork-block-number 7234891
 
 # Terminal 2 — drain the watched wallet below threshold
 cast send 0xRECIPIENT \
@@ -483,7 +516,7 @@ cast send 0xRECIPIENT \
 
 Set `ETH_RPC_URL=http://localhost:8545` in `monitor/.env` and restart the monitor. The condition triggers on the next poll cycle.
 
-### Query rule status
+### Query Rule Status
 
 ```bash
 yarn ts-node -e "
@@ -493,7 +526,7 @@ const anchor = require('@coral-xyz/anchor');
 const fs = require('fs');
 
 const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-const kp  = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(process.env.HOME + '/.config/solana/id.json', 'utf8'))));
+const kp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(process.env.HOME + '/.config/solana/id.json', 'utf8'))));
 const sdk = new ProvaSDK(new anchor.Wallet(kp), connection, {
   registryProgramId: process.env.REGISTRY_PROGRAM_ID,
   executorProgramId: process.env.EXECUTOR_PROGRAM_ID,
@@ -508,8 +541,6 @@ console.log(rules.map(r => ({ id: r.ruleId.slice(0, 10), status: r.status })));
 ---
 
 ## SDK Usage
-
-Use the SDK in your React frontend:
 
 ```typescript
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
@@ -539,8 +570,7 @@ const { txSig, ruleId, rulePda } = await sdk.registerRule({
 const rules = await sdk.getUserRules(wallet.publicKey);
 
 // Poll until executed — drives the progress UI
-import { pollUntilExecuted, RuleStatus } from "@prova/sdk";
-
+import { pollUntilExecuted } from "@prova/sdk";
 await pollUntilExecuted(sdk, new PublicKey(rulePda), (status) => {
   console.log("Status update:", status);
   // Active → Triggered → Proving → Executed
@@ -554,7 +584,7 @@ const unsubscribe = sdk.onRuleExecuted(({ ruleId, executedAt }) => {
 
 ---
 
-## How the ZK Proof Works
+## ZK Proof Deep Dive
 
 The SP1 circuit (`sp1-prover/program/src/main.rs`) runs inside the SP1 zkVM and proves three things in zero knowledge:
 
@@ -562,27 +592,30 @@ The SP1 circuit (`sp1-prover/program/src/main.rs`) runs inside the SP1 zkVM and 
 2. **Account inclusion** — the account at `wallet_address` exists in the state trie (Merkle-Patricia proof)
 3. **Balance condition** — the account's balance decoded from RLP is strictly less than `threshold_wei`
 
-The proof commits four public values: `block_number`, `state_root`, `wallet_address`, `threshold_wei`. The Solana verifier checks these against the registered rule. If they don't match, the transaction reverts.
+The proof commits four public values: `block_number`, `state_root`, `wallet_address`, `threshold_wei`. The Solana verifier checks these against the registered rule — mismatched proofs revert.
 
 **Proof stats:**
 
-- Circuit: Groth16 on BN254
-- Proof size: ~264 bytes
-- Solana verification cost: ~280k compute units
-- Proving time: ~90s local CPU, ~20s Succinct Network
+| Metric                          | Value               |
+| ------------------------------- | ------------------- |
+| Circuit                         | Groth16 on BN254    |
+| Proof size                      | ~264 bytes          |
+| Verification cost               | ~280k compute units |
+| Proving time (local CPU)        | ~90s                |
+| Proving time (Succinct Network) | ~20s                |
 
 ---
 
-## How Arcium Protects the Execution
+## Arcium Confidential Execution
 
 Without Arcium, anyone watching the Solana mempool could see the rule is about to execute and front-run the USDC transfer. With Arcium:
 
 1. The monitor encrypts `(amount, recipient_tag)` with x25519 + RescueCipher before submitting
-2. The `execute_transfer` Arcis circuit runs across MPC nodes — no single node ever reconstructs the plaintext
+2. The `execute_transfer` Arcis circuit runs across MPC nodes — no single node reconstructs the plaintext
 3. The circuit validates constraints privately: `amount > 0`, `amount <= MAX_TRANSFER_AMOUNT`, `recipient_tag != 0`
 4. Only after MPC consensus does the Solana callback fire the actual SPL transfer
 
-The result: the transfer is MEV-resistant and the rule parameters stay private until settlement.
+The transfer is MEV-resistant and rule parameters stay private until settlement.
 
 ---
 
@@ -601,37 +634,42 @@ PROVING
 EXECUTED  ──── escrowed fee released to executor
 ```
 
-A rule can also transition to `CANCELLED` from `ACTIVE` if the owner calls `cancel_rule`, which returns the escrowed fee.
+A rule can also transition to `CANCELLED` from `ACTIVE` (owner calls `cancel_rule`, escrowed fee returned).
 
 ---
 
 ## Security Considerations
 
-- **Double-execution prevention** — the registry rejects any status transition that skips a step. A proof cannot be submitted for a rule that is not in `Triggered` status.
-- **Public input binding** — the executor program checks that `wallet_address`, `threshold_wei`, and `rule_id` in the proof public values exactly match the registered rule. Mismatched proofs are rejected.
-- **Fee slashing (TODO)** — in production, the executor network should stake and be slashable for submitting invalid proofs. Currently the monitor keypair is trusted.
-- **Proof replay** — rule IDs are unique and status transitions are one-way. A proof for an already-executed rule will fail the `RuleNotProving` check.
-- **Arcium MXE output** — the callback verifies the computation output against the cluster account before executing the transfer. A failed MPC computation returns an error, not a silent no-op.
+**Double-execution prevention** — the registry rejects any status transition that skips a step. A proof cannot be submitted for a rule that is not in `Triggered` status.
+
+**Public input binding** — the executor checks that `wallet_address`, `threshold_wei`, and `rule_id` in the proof public values exactly match the registered rule. Mismatched proofs are rejected.
+
+**Fee slashing (TODO)** — in production, executor nodes should stake and be slashable for submitting invalid proofs. Currently the monitor keypair is trusted.
+
+**Proof replay** — rule IDs are unique and status transitions are one-way. A proof for an already-executed rule fails the `RuleNotProving` check.
+
+**Arcium MXE output** — the callback verifies the computation output against the cluster account before executing. A failed MPC computation returns an error, not a silent no-op.
 
 ---
 
 ## Common Errors
 
-| Error                                | Fix                                                                                                           |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `arcium localnet` times out on macOS | macOS file descriptor limit is too low — the validator crashes before the RPC comes up (see below)            |
-| `Account not found` on registry init | Run `initialize_registry.ts` first                                                                            |
-| `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` doesn't match the built circuit — re-run `cargo prove vk` and update the constant    |
-| `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                    |
-| Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — switch to an Alchemy archive endpoint                    |
-| `RuleNotActive` on `markTriggered`   | Rule was already triggered — check its status with `getRuleStatus()`                                          |
-| Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120 seconds. Set `PROVER_MODE=network` to use Succinct Network (~20s) |
+| Error                                | Fix                                                                                                         |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `cargo prove vk` not found           | Use `cargo prove vkey` (correct subcommand)                                                                 |
+| `arcium localnet` times out on macOS | macOS file descriptor limit — see fix below                                                                 |
+| `Account not found` on registry init | Run `initialize_registry.ts` first                                                                          |
+| `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` doesn't match compiled circuit — re-run `cargo prove vkey` and update the constant |
+| `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                  |
+| Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — use an Alchemy archive endpoint                        |
+| `RuleNotActive` on `markTriggered`   | Rule was already triggered — check status with `getRuleStatus()`                                            |
+| Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120s. Set `PROVER_MODE=network` for Succinct Network (~20s)         |
 
-### macOS: `arcium localnet` times out
+### macOS: `arcium localnet` Times Out
 
-The error message says to increase `startup_wait`, but the real cause is the macOS kernel file descriptor cap. The Solana validator opens thousands of files during startup (RocksDB + account hash cache). When `kern.maxfilesperproc` is too low, all validator threads panic with `Too many open files (os error 24)` and the process dies — which is why the RPC never comes up no matter how long you wait.
+The real cause is the macOS kernel file descriptor cap. The Solana validator opens thousands of files during startup (RocksDB + account hash cache). When `kern.maxfilesperproc` is too low, all validator threads panic with `Too many open files (os error 24)`.
 
-**Fix (run once before `arcium localnet`, requires sudo):**
+**Fix (run once, requires sudo):**
 
 ```bash
 sudo sysctl -w kern.maxfiles=1048576
@@ -640,25 +678,25 @@ ulimit -n 1048576
 arcium localnet
 ```
 
-**Make it permanent** so you don't have to repeat this after every reboot:
+**Make it permanent:**
 
 ```bash
-# /etc/sysctl.conf (create if it doesn't exist)
-echo "kern.maxfiles=1048576" | sudo tee -a /etc/sysctl.conf
+# Add to /etc/sysctl.conf
+echo "kern.maxfiles=1048576"      | sudo tee -a /etc/sysctl.conf
 echo "kern.maxfilesperproc=1048576" | sudo tee -a /etc/sysctl.conf
 
-# ~/.zshrc (or ~/.bashrc)
+# Add to ~/.zshrc (or ~/.bashrc)
 echo "ulimit -n 1048576" >> ~/.zshrc
 ```
 
 ---
 
-## Limitations (Current)
+## Limitations
 
 - **EVM source chains only** — the SP1 circuit understands Ethereum's MPT structure. Cosmos/Substrate require different proof circuits.
 - **SPL token actions only** — native SOL transfers and arbitrary CPI calls are not yet supported.
-- **Single condition per rule** — composite conditions (AND/OR of multiple triggers) are not implemented.
-- **Manual monitor** — the executor node network is currently a single trusted keypair. Decentralized staked executor network is the next step.
+- **Single condition per rule** — composite conditions (AND/OR) are not implemented.
+- **Single trusted monitor** — the executor node network is currently one keypair. A decentralized staked executor network is the next step.
 
 ---
 

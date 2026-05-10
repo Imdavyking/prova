@@ -6,8 +6,8 @@
 //
 // Usage:
 //   cargo run --bin prova-prove -- \
-//     --rpc-url https://eth-mainnet.g.alchemy.com/v2/<key> \
-//     --block 21847293 \
+//     --rpc-url https://eth-sepolia.g.alchemy.com/v2/<key> \
+//     --block 7500000 \
 //     --wallet 0x4F8a...9B2c \
 //     --threshold 500000000000000000 \
 //     --rule-id 0xdeadbeef...
