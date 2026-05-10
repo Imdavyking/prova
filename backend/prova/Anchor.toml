@@ -13,7 +13,7 @@ prova_registry = "8idYgi4XUAJVKp2XS25tjfp77LrFiDWmpMiaT8bzrotw"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "https://api.devnet.solana.com"
+cluster = "https://solana-devnet.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
