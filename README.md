@@ -335,8 +335,8 @@ arcium deploy \
 arcium init-mxe \
   --keypair-path ~/.config/solana/id.json \
   --callback-program 9cgBVGFfx2XmMhD9L9U7b6xfgSe4MageWcWnn4NUi9dL \
-  --cluster-offset 1234 \
-  --recovery-set-size 2 \
+  --cluster-offset 456 \
+  --recovery-set-size 4 \
   --rpc-url https://api.devnet.solana.com
   ```
 
