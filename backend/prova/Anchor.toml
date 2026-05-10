@@ -5,8 +5,7 @@ package_manager = "yarn"
 resolution = true
 skip-lint = false
 
-[programs.localnet]
-prova = "APaheDf1sS8ULYheJPm4tVQpKFCbH7uZtMsDzw5Eos4R"
+[programs.devnet]
 prova_executor = "9cgBVGFfx2XmMhD9L9U7b6xfgSe4MageWcWnn4NUi9dL"
 prova_registry = "8idYgi4XUAJVKp2XS25tjfp77LrFiDWmpMiaT8bzrotw"
 
@@ -14,7 +13,7 @@ prova_registry = "8idYgi4XUAJVKp2XS25tjfp77LrFiDWmpMiaT8bzrotw"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "https://api.devnet.solana.com"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

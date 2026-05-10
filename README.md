@@ -324,7 +324,11 @@ cd backend/nodejs/monitor && yarn build && cd ../../..
 ### 1. Deploy Programs
 
 ```bash
-arcium deploy --cluster devnet
+arcium deploy \
+  --keypair-path ~/.config/solana/id.json \
+  --cluster-offset 0 \
+  --recovery-set-size 3 \
+  --rpc-url https://api.devnet.solana.com
 ```
 
 Note the three output values:
