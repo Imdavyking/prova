@@ -431,6 +431,7 @@ pub struct MarkProving<'info> {
 pub struct MarkExecuted<'info> {
     #[account(mut, seeds = [RULE_SEED, rule.owner.as_ref(), &rule.rule_id], bump = rule.bump)]
     pub rule: Box<Account<'info, Rule>>,
+    #[account(mut)]
     pub executor: SystemAccount<'info>,
     pub caller: Signer<'info>,
 }
