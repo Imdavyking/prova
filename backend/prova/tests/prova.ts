@@ -29,6 +29,7 @@ import {
   getMXEAccAddress,
   getLookupTableAddress,
   uploadCircuit,
+  getCircuitState,
 } from "@arcium-hq/client";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -659,6 +660,36 @@ describe("prova_executor", () => {
       console.log("Circuit already uploaded, skipping.");
     } else {
       const rawCircuit = fs.readFileSync("build/execute_transfer.arcis");
+      console.log("Circuit size:", rawCircuit.length, "bytes");
+
+      const compDefAcc =
+        await arciumProgram.account.computationDefinitionAccount.fetch(
+          compDefPDA,
+        );
+      console.log("circuitSource:", JSON.stringify(compDefAcc.circuitSource));
+      console.log(
+        "circuitState:",
+        getCircuitState(compDefAcc.circuitSource as any),
+      );
+
+      const arciumProgId = getArciumProgramId();
+      console.log("Arcium program ID (client):", arciumProgId.toBase58());
+
+      const arciumAccInfo = await provider.connection.getAccountInfo(
+        arciumProgId,
+      );
+      console.log("Arcium program exists on devnet:", arciumAccInfo !== null);
+      console.log("Arcium program is executable:", arciumAccInfo?.executable);
+      const { getRawCircuitAccAddress } = await import("@arcium-hq/client");
+      const rawPda = getRawCircuitAccAddress(compDefPDA, 0);
+      const rawAcc = await provider.connection.getAccountInfo(rawPda);
+      console.log("rawCircuitPda:", rawPda.toBase58());
+      console.log("rawCircuitAcc size:", rawAcc?.data.length ?? "null");
+      console.log(
+        "requiredSize:",
+        Math.ceil(818544 / (10485760 - 9)) === 1 ? 818544 + 9 : "multi-acc",
+      );
+
       await uploadCircuit(
         provider,
         "execute_transfer",
