@@ -326,8 +326,8 @@ cd backend/nodejs/monitor && yarn build && cd ../../..
 ```bash
 arcium deploy \
   --keypair-path ~/.config/solana/id.json \
-  --cluster-offset 0 \
-  --recovery-set-size 3 \
+  --cluster-offset 456 \
+  --recovery-set-size 4 \
   --rpc-url https://solana-devnet.g.alchemy.com/v2/YOUR_KEY
 ```
 
