@@ -278,10 +278,24 @@ cd backend/prova/sp1-prover/program
 cargo prove build
 
 # Get the verification key hash
-cargo prove vkey
+# The ELF lands in the parent sp1-prover/target/ directory, not program/target/
+cargo prove vkey --elf ../target/elf-compilation/riscv64im-succinct-zkvm-elf/release/balance-prover
 ```
 
-Copy the `vkey` hash and paste it into `programs/prova_executor/src/lib.rs` as `BALANCE_PROVER_VK_HASH`.
+The output looks like:
+
+```
+Verification Key Hash:
+0x007153c5b0763478a99a517ba9d7c55c9970c7aa01fc5bf7d49514115e4309e4
+```
+
+Paste that hash into `programs/prova_executor/src/lib.rs` as `BALANCE_PROVER_VK_HASH`:
+
+```rust
+const BALANCE_PROVER_VK_HASH: &str =
+    "0x007153c5b0763478a99a517ba9d7c55c9970c7aa01fc5bf7d49514115e4309e4";
+```
+
 This ties the on-chain verifier to your compiled circuit — a mismatch causes every proof to be rejected.
 
 ```bash
@@ -654,16 +668,16 @@ A rule can also transition to `CANCELLED` from `ACTIVE` (owner calls `cancel_rul
 
 ## Common Errors
 
-| Error                                | Fix                                                                                                         |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| `cargo prove vk` not found           | Use `cargo prove vkey` (correct subcommand)                                                                 |
-| `arcium localnet` times out on macOS | macOS file descriptor limit — see fix below                                                                 |
-| `Account not found` on registry init | Run `initialize_registry.ts` first                                                                          |
-| `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` doesn't match compiled circuit — re-run `cargo prove vkey` and update the constant |
-| `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                  |
-| Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — use an Alchemy archive endpoint                        |
-| `RuleNotActive` on `markTriggered`   | Rule was already triggered — check status with `getRuleStatus()`                                            |
-| Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120s. Set `PROVER_MODE=network` for Succinct Network (~20s)         |
+| Error                                | Fix                                                                                                                      |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `cargo prove vk` not found           | Use `cargo prove vkey --elf ../target/elf-compilation/riscv64im-succinct-zkvm-elf/release/balance-prover`                |
+| `arcium localnet` times out on macOS | macOS file descriptor limit — see fix below                                                                              |
+| `Account not found` on registry init | Run `initialize_registry.ts` first                                                                                       |
+| `InvalidProof` from executor         | `BALANCE_PROVER_VK_HASH` mismatch — re-run `cargo prove vkey --elf ../target/.../balance-prover` and update the constant |
+| `getMXEPublicKeyWithRetry` times out | Arcium devnet MXE isn't ready — wait 30s and retry, or run `arcium status`                                               |
+| Monitor not detecting condition      | `ETH_RPC_URL` doesn't support `debug_getRawHeader` — use an Alchemy archive endpoint                                     |
+| `RuleNotActive` on `markTriggered`   | Rule was already triggered — check status with `getRuleStatus()`                                                         |
+| Proof generation hangs               | Normal for local CPU — Groth16 takes 90–120s. Set `PROVER_MODE=network` for Succinct Network (~20s)                      |
 
 ### macOS: `arcium localnet` Times Out
 

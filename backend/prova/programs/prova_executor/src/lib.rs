@@ -13,7 +13,7 @@ declare_id!("9cgBVGFfx2XmMhD9L9U7b6xfgSe4MageWcWnn4NUi9dL");
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 pub const BALANCE_PROVER_VK_HASH: &str =
-    "0x0011223344556677889900112233445566778899001122334455667788990011";
+    "0x007153c5b0763478a99a517ba9d7c55c9970c7aa01fc5bf7d49514115e4309e4";
 
 pub const COMP_DEF_OFFSET_EXECUTE_TRANSFER: u32 = comp_def_offset("execute_transfer");
 
