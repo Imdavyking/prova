@@ -729,6 +729,27 @@ describe("prova_executor", () => {
       //   console.error("Logs:", e.logs);
       // }
 
+      const arciumProg2 = getArciumProgram(provider);
+      const compDefAccInfo3 = {
+        pubkey: compDefPDA,
+        offset: Buffer.from(
+          getCompDefAccOffset("execute_transfer"),
+        ).readUInt32LE(0),
+      };
+      const ix2 = await arciumProg2.methods
+        .embiggenRawCircuitAcc(
+          compDefAccInfo3.offset,
+          executorProgram.programId,
+          0,
+        )
+        .accounts({ signer: payer.publicKey })
+        .instruction();
+      const tx2 = new anchor.web3.Transaction();
+      tx2.add(ix2);
+      const sim = await provider.connection.simulateTransaction(tx2, [payer]);
+      console.log("Simulation logs:", sim.value.logs);
+      console.log("Simulation err:", JSON.stringify(sim.value.err));
+
       await uploadCircuit(
         provider,
         "execute_transfer",

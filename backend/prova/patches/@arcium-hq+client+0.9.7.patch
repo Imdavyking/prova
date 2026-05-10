@@ -1,5 +1,5 @@
 diff --git a/node_modules/@arcium-hq/client/build/index.mjs b/node_modules/@arcium-hq/client/build/index.mjs
-index 40cf66c..ec19566 100644
+index 40cf66c..167d625 100644
 --- a/node_modules/@arcium-hq/client/build/index.mjs
 +++ b/node_modules/@arcium-hq/client/build/index.mjs
 @@ -14929,7 +14929,7 @@ async function uploadToCircuitAcc(provider, program, rawCircuitPart, rawCircuitI
@@ -11,8 +11,25 @@ index 40cf66c..ec19566 100644
                  + i * (MAX_REALLOC_PER_IX * MAX_EMBIGGEN_IX_PER_TX), rawCircuitPart.length);
              // eslint-disable-next-line no-await-in-loop
              const blockInfo = await provider.connection.getLatestBlockhash({ commitment: confirmOptions?.commitment || 'confirmed' });
-@@ -14980,6 +14980,19 @@ async function buildResizeTx(program, signerPubkey, compDefAccInfo, mxeProgramId
+@@ -14967,19 +14967,29 @@ async function uploadToCircuitAcc(provider, program, rawCircuitPart, rawCircuitI
+     return sigs.concat(remainingTxs);
+ }
+ async function buildResizeTx(program, signerPubkey, compDefAccInfo, mxeProgramId, rawCircuitIndex, currentSize, requiredSize) {
+-    const ix = await program.methods
+-        .embiggenRawCircuitAcc(compDefAccInfo.offset, mxeProgramId, rawCircuitIndex)
+-        .accounts({
+-        signer: signerPubkey,
+-    })
+-        .instruction();
+     const resizeSize = Math.min(requiredSize - currentSize, MAX_EMBIGGEN_IX_PER_TX * MAX_REALLOC_PER_IX);
+-    // We might alloc a bit too much here, but that's ok because we fix it in the upload tx
+     const ixCount = Math.ceil(resizeSize / MAX_REALLOC_PER_IX);
+     const tx = new anchor.web3.Transaction();
      for (let i = 0; i < ixCount; i++) {
++        const ix = await program.methods
++            .embiggenRawCircuitAcc(compDefAccInfo.offset, mxeProgramId, rawCircuitIndex)
++            .accounts({ signer: signerPubkey })
++            .instruction();
          tx.add(ix);
      }
 +	// AFTER
