@@ -644,18 +644,32 @@ describe("prova_executor", () => {
     }
 
     // Upload the compiled circuit to Arcium
-    const rawCircuit = fs.readFileSync("build/execute_transfer.arcis");
-    await uploadCircuit(
-      provider,
-      "execute_transfer",
-      executorProgram.programId,
-      rawCircuit,
-      true,
-      500,
-      { skipPreflight: true, commitment: "confirmed" },
+    const circuitAccInfo = await provider.connection.getAccountInfo(
+      PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("raw_circuit"),
+          executorProgram.programId.toBuffer(),
+          Buffer.from([0, 0, 0, 0]),
+        ],
+        getArciumProgramId(),
+      )[0],
     );
 
-    console.log("execute_transfer circuit uploaded");
+    if (circuitAccInfo && circuitAccInfo.data.length > 0) {
+      console.log("Circuit already uploaded, skipping.");
+    } else {
+      const rawCircuit = fs.readFileSync("build/execute_transfer.arcis");
+      await uploadCircuit(
+        provider,
+        "execute_transfer",
+        executorProgram.programId,
+        rawCircuit,
+        true,
+        500,
+        { skipPreflight: true, commitment: "confirmed" },
+      );
+      console.log("execute_transfer circuit uploaded");
+    }
 
     // Verify comp def account was created
     const compDef =
