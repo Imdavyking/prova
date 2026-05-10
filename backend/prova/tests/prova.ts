@@ -134,6 +134,17 @@ describe("prova_registry", () => {
     );
     const params = makeRuleParams(ruleId);
 
+    console.log(`params: ${JSON.stringify(params)}`);
+
+    console.log(
+      `accounts json: ${JSON.stringify({
+        registryState: registryState.toBase58(),
+        rule: rule.toBase58(),
+        owner: authority.publicKey.toBase58(),
+        systemProgram: SystemProgram.programId.toBase58(),
+      })}`,
+    );
+
     const balBefore = await provider.connection.getBalance(authority.publicKey);
 
     const sig = await registryProgram.methods

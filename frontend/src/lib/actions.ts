@@ -188,29 +188,45 @@ export async function registerRule(
     program.programId,
   );
 
-  const txSig = await (program.methods as any)
-    .registerRule({
-      ruleId: Array.from(ruleIdBytes),
-      sourceChain: toAnchorEnum(params.sourceChain),
-      conditionType: toAnchorEnum(params.conditionType),
-      watchAddress: Array.from(hexTo20Bytes(params.watchAddress)),
-      tokenAddress: Array.from(hexTo20Bytes(params.tokenAddress)),
-      thresholdWei: Array.from(bigintTo32Bytes(BigInt(params.thresholdWei))),
-      actionType: toAnchorEnum(params.actionType),
-      recipient: new PublicKey(params.recipient),
-      tokenMint: new PublicKey(params.tokenMint),
-      actionAmount: new anchor.BN(params.actionAmount),
-      escrowedFee: new anchor.BN(params.escrowedFeeLamports),
-    })
-    .accounts({
-      registryState: registryStatePda,
-      rule: rulePda,
-      owner,
-      systemProgram: SystemProgram.programId,
-    })
-    .rpc({ commitment: "confirmed" });
+  try {
+    const txSig = await (program.methods as any)
+      .registerRule({
+        ruleId: Array.from(ruleIdBytes),
+        sourceChain: toAnchorEnum(params.sourceChain),
+        conditionType: toAnchorEnum(params.conditionType),
+        watchAddress: Array.from(hexTo20Bytes(params.watchAddress)),
+        tokenAddress: Array.from(hexTo20Bytes(params.tokenAddress)),
+        thresholdWei: Array.from(bigintTo32Bytes(BigInt(params.thresholdWei))),
+        actionType: toAnchorEnum(params.actionType),
+        recipient: new PublicKey(params.recipient),
+        tokenMint: new PublicKey(params.tokenMint),
+        actionAmount: new anchor.BN(params.actionAmount),
+        escrowedFee: new anchor.BN(params.escrowedFeeLamports),
+      })
+      .accounts({
+        registryState: registryStatePda,
+        rule: rulePda,
+        owner,
+        systemProgram: SystemProgram.programId,
+      })
 
-  return { txSig, ruleId, rulePda: rulePda.toBase58() };
+      .rpc({ commitment: "confirmed" });
+
+    return { txSig, ruleId, rulePda: rulePda.toBase58() };
+  } catch (err: any) {
+    console.error("❌ Full error object:", err);
+
+    if (err.logs) {
+      console.error("📜 Program Logs:");
+      err.logs.forEach((log: string) => console.error("   ", log));
+    }
+
+    // Common Anchor errors
+    if (err.error?.errorCode?.code) {
+      console.error("Anchor Error Code:", err.error.errorCode.code);
+    }
+    throw e;
+  }
 }
 
 export async function getUserRules(
