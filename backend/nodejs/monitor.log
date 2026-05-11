@@ -5112,3 +5112,412 @@
 2026-05-11T00:56:19.162Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
 2026-05-11T00:56:19.162Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
 2026-05-11T00:56:22.712Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:56:42.987Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:56:42.988Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:56:43.025Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:56:43.027Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:56:43.027Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove"}
+2026-05-11T00:56:43.027Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:56:43.035Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:56:43.036Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:56:43.036Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:56:43.823Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:56:43.823Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:56:43.826Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:56:43.828Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:56:44.686Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829937,"triggered":true}
+2026-05-11T00:56:44.687Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829937}
+2026-05-11T00:56:44.687Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:56:44.687Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829937,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:56:44.687Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829937,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:56:44.688Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829937 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829937.json"}
+2026-05-11T00:56:44.691Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:56:44.691Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT"}
+2026-05-11T00:56:46.342Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:57:32.725Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:57:32.727Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:57:32.763Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:57:32.765Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:57:32.765Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove"}
+2026-05-11T00:57:32.765Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:57:32.771Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:57:32.772Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:57:32.772Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:57:33.543Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:57:33.543Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:57:33.546Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:57:33.548Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:57:34.301Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829941,"triggered":true}
+2026-05-11T00:57:34.302Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829941}
+2026-05-11T00:57:34.302Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:57:34.302Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:57:34.303Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:57:34.304Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829941 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829941.json"}
+2026-05-11T00:57:34.308Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:57:34.309Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT"}
+2026-05-11T00:57:39.311Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:57:39.311Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829941 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829941.json"}
+2026-05-11T00:57:39.313Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:57:39.313Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT"}
+2026-05-11T00:57:44.515Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:57:44.517Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:57:44.557Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:57:44.559Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:57:44.559Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T00:57:44.559Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:57:44.565Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:57:44.566Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:57:44.566Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:57:45.344Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:57:45.344Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:57:45.347Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:57:45.350Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:57:46.237Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829941,"triggered":true}
+2026-05-11T00:57:46.237Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829941}
+2026-05-11T00:57:46.238Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:57:46.238Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:57:46.238Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:57:46.238Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829941 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829941.json"}
+2026-05-11T00:57:46.240Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:57:46.240Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:57:51.242Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:57:51.243Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829941 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829941.json"}
+2026-05-11T00:57:51.244Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:57:51.244Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:58:01.246Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829941,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:01.249Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829941 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829941.json"}
+2026-05-11T00:58:01.251Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:01.251Z [[31merror[39m] Execution attempt failed {"attempt":3,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:58:01.251Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:58:01.251Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:58:11.943Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829943,"triggered":true}
+2026-05-11T00:58:11.943Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829943}
+2026-05-11T00:58:11.944Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:58:11.944Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:58:11.944Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:11.944Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829943 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829943.json"}
+2026-05-11T00:58:11.946Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:11.946Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:58:16.947Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:16.948Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829943 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829943.json"}
+2026-05-11T00:58:16.949Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:16.949Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:58:18.686Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:58:21.417Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:58:21.419Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:58:21.454Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:58:21.456Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:58:21.456Z [[32minfo[39m] SP1 prover binary {"path":"/target/release/prova-prove"}
+2026-05-11T00:58:21.456Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:58:21.462Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:58:21.463Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:58:21.463Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:58:22.337Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:58:22.337Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:58:22.341Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:58:22.343Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:58:23.157Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829943,"triggered":true}
+2026-05-11T00:58:23.158Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829943}
+2026-05-11T00:58:23.158Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:58:23.158Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:58:23.159Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:23.159Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829943 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829943.json"}
+2026-05-11T00:58:23.162Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:23.162Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:58:28.164Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829943,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:28.165Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829943 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829943.json"}
+2026-05-11T00:58:28.166Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:28.166Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:58:37.151Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:58:41.802Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:58:41.803Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:58:41.846Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:58:41.848Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:58:41.848Z [[32minfo[39m] SP1 prover binary {"path":"/target/release/prova-prove"}
+2026-05-11T00:58:41.848Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:58:41.854Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:58:41.855Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:58:41.855Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:58:42.694Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:58:42.694Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:58:42.697Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:58:42.700Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:58:43.670Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829945,"triggered":true}
+2026-05-11T00:58:43.670Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829945}
+2026-05-11T00:58:43.670Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:58:43.671Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829945,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:58:43.671Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829945,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:43.672Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829945 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829945.json"}
+2026-05-11T00:58:43.676Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:43.676Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:58:48.678Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829945,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:48.678Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829945 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829945.json"}
+2026-05-11T00:58:48.679Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:48.679Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:58:51.263Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:58:56.360Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:58:56.362Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:58:56.399Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:58:56.401Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:58:56.401Z [[32minfo[39m] SP1 prover binary {"path":"/target/release/prova-prove"}
+2026-05-11T00:58:56.401Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:58:56.407Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:58:56.408Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:58:56.408Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:58:57.220Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:58:57.220Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:58:57.223Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:58:57.225Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:58:58.022Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829946,"triggered":true}
+2026-05-11T00:58:58.022Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829946}
+2026-05-11T00:58:58.022Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:58:58.023Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829946,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:58:58.023Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829946,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:58:58.024Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829946 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829946.json"}
+2026-05-11T00:58:58.029Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:58:58.029Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:59:03.031Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829946,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:03.032Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829946 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829946.json"}
+2026-05-11T00:59:03.034Z [[31merror[39m] Proof generation failed {"error":"spawn /target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:03.034Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /target/release/prova-prove ENOENT"}
+2026-05-11T00:59:11.587Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:59:14.124Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:59:14.126Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:59:14.164Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:59:14.166Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:59:14.166Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove"}
+2026-05-11T00:59:14.166Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:59:14.173Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:59:14.173Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:59:14.174Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:59:14.979Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:59:14.979Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:59:14.981Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:59:14.984Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:59:15.842Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829947,"triggered":true}
+2026-05-11T00:59:15.842Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829947}
+2026-05-11T00:59:15.842Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:59:15.843Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829947,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:59:15.843Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829947,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:15.844Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829947 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829947.json"}
+2026-05-11T00:59:15.848Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:15.848Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/script/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:17.300Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:59:27.290Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:59:27.292Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:59:27.328Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:59:27.331Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:59:27.331Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove"}
+2026-05-11T00:59:27.331Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:59:27.337Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:59:27.340Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:59:27.341Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:59:28.115Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:59:28.115Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:59:28.118Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:59:28.121Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:59:28.923Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829948,"triggered":true}
+2026-05-11T00:59:28.924Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829948}
+2026-05-11T00:59:28.924Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:59:28.924Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829948,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:59:28.925Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829948,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:28.925Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829948 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829948.json"}
+2026-05-11T00:59:28.929Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:28.929Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:33.930Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829948,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:33.931Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829948 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829948.json"}
+2026-05-11T00:59:33.932Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:33.932Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:43.934Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829948,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:43.935Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829948 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829948.json"}
+2026-05-11T00:59:43.935Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:43.935Z [[31merror[39m] Execution attempt failed {"attempt":3,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:43.935Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:59:43.936Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:59:44.797Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:59:48.578Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:59:48.580Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:59:48.617Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:59:48.619Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:59:48.619Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T00:59:48.619Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:59:48.625Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:59:48.626Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:59:48.626Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:59:49.365Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:59:49.365Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:59:49.369Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:59:49.372Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:59:50.233Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829950,"triggered":true}
+2026-05-11T00:59:50.234Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829950}
+2026-05-11T00:59:50.234Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T00:59:50.234Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829950,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T00:59:50.234Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829950,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:50.235Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829950 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829950.json"}
+2026-05-11T00:59:50.237Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:50.237Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:55.239Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829950,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T00:59:55.241Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829950 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829950.json"}
+2026-05-11T00:59:55.243Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T00:59:55.244Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T00:59:59.214Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T01:00:23.740Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T01:00:23.742Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T01:00:23.781Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T01:00:23.783Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T01:00:23.783Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove"}
+2026-05-11T01:00:23.783Z [[32minfo[39m] Initialized proof generator
+2026-05-11T01:00:23.790Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T01:00:23.790Z [[32minfo[39m] Initialized registry loader
+2026-05-11T01:00:23.791Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T01:00:24.691Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T01:00:24.691Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:00:24.694Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T01:00:24.696Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T01:00:25.580Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829951,"triggered":true}
+2026-05-11T01:00:25.580Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829951}
+2026-05-11T01:00:25.581Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:00:25.581Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829951,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:00:25.581Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829951,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:00:25.582Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829951 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829951.json"}
+2026-05-11T01:00:25.586Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:00:25.586Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:00:30.588Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829951,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:00:30.589Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829951 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829951.json"}
+2026-05-11T01:00:30.591Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:00:30.591Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:00:40.593Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829951,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:00:40.595Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829951 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829951.json"}
+2026-05-11T01:00:40.597Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:00:40.597Z [[31merror[39m] Execution attempt failed {"attempt":3,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:00:40.597Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:00:40.597Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:00:44.941Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T01:00:47.291Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T01:00:47.292Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T01:00:47.330Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T01:00:47.332Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T01:00:47.332Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove"}
+2026-05-11T01:00:47.332Z [[32minfo[39m] Initialized proof generator
+2026-05-11T01:00:47.338Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T01:00:47.339Z [[32minfo[39m] Initialized registry loader
+2026-05-11T01:00:47.339Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T01:00:48.233Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T01:00:48.233Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:00:48.237Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T01:00:48.239Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T01:00:49.112Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829953,"triggered":true}
+2026-05-11T01:00:49.112Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829953}
+2026-05-11T01:00:49.113Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:00:49.113Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:00:49.113Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:00:49.114Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:00:49.119Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:00:49.119Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:00:54.124Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:00:54.130Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:00:54.133Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:00:54.133Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:01:04.135Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:04.136Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:01:04.137Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:04.137Z [[31merror[39m] Execution attempt failed {"attempt":3,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/nodejs/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:01:04.137Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:04.137Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:01:05.970Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T01:01:07.854Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T01:01:07.856Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T01:01:07.891Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T01:01:07.893Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T01:01:07.893Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove"}
+2026-05-11T01:01:07.893Z [[32minfo[39m] Initialized proof generator
+2026-05-11T01:01:07.900Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T01:01:07.900Z [[32minfo[39m] Initialized registry loader
+2026-05-11T01:01:07.900Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T01:01:08.693Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T01:01:08.693Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:01:08.696Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T01:01:08.699Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T01:01:09.544Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829953,"triggered":true}
+2026-05-11T01:01:09.545Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829953}
+2026-05-11T01:01:09.545Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:09.545Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:01:09.545Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:09.546Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:01:09.548Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:09.548Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT"}
+2026-05-11T01:01:14.551Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:14.553Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:01:14.555Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:14.555Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT"}
+2026-05-11T01:01:24.558Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829953,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:24.560Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829953 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829953.json"}
+2026-05-11T01:01:24.563Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:24.563Z [[31merror[39m] Execution attempt failed {"attempt":3,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT"}
+2026-05-11T01:01:24.564Z [[31merror[39m] ❌ Max retries reached. Rule not executed. {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:24.564Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:01:35.270Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829955,"triggered":true}
+2026-05-11T01:01:35.271Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829955}
+2026-05-11T01:01:35.271Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:35.271Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829955,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:01:35.271Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829955,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:35.272Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829955 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829955.json"}
+2026-05-11T01:01:35.273Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:35.273Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT"}
+2026-05-11T01:01:40.274Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829955,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:40.275Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829955 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829955.json"}
+2026-05-11T01:01:40.277Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:40.277Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/sp1-prover/target/prova/release/prova-prove ENOENT"}
+2026-05-11T01:01:40.412Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T01:01:42.734Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T01:01:42.736Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T01:01:42.771Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T01:01:42.773Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T01:01:42.773Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/backend/sp1-prover/target/release/prova-prove"}
+2026-05-11T01:01:42.773Z [[32minfo[39m] Initialized proof generator
+2026-05-11T01:01:42.779Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T01:01:42.780Z [[32minfo[39m] Initialized registry loader
+2026-05-11T01:01:42.780Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T01:01:43.565Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T01:01:43.565Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:01:43.568Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T01:01:43.571Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T01:01:44.415Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829956,"triggered":true}
+2026-05-11T01:01:44.415Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829956}
+2026-05-11T01:01:44.416Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:44.416Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829956,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:01:44.416Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829956,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:44.417Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829956 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829956.json"}
+2026-05-11T01:01:44.421Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/backend/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:44.421Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/backend/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:01:49.423Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829956,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:49.425Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829956 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829956.json"}
+2026-05-11T01:01:49.427Z [[31merror[39m] Proof generation failed {"error":"spawn /Users/dave/Work/prova/backend/backend/sp1-prover/target/release/prova-prove ENOENT","stderr":""}
+2026-05-11T01:01:49.427Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: spawn /Users/dave/Work/prova/backend/backend/sp1-prover/target/release/prova-prove ENOENT"}
+2026-05-11T01:01:53.817Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T01:01:55.925Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T01:01:55.927Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T01:01:55.964Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T01:01:55.967Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T01:01:55.967Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T01:01:55.967Z [[32minfo[39m] Initialized proof generator
+2026-05-11T01:01:55.973Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T01:01:55.974Z [[32minfo[39m] Initialized registry loader
+2026-05-11T01:01:55.974Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T01:01:56.695Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T01:01:56.695Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T01:01:56.698Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T01:01:56.700Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T01:01:57.478Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10829957,"triggered":true}
+2026-05-11T01:01:57.478Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10829957}
+2026-05-11T01:01:57.478Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T01:01:57.478Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829957,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T01:01:57.478Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829957,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:01:57.479Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json"}
+2026-05-11T01:02:00.359Z [[31merror[39m] Proof generation failed {"error":"Command failed: /Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove --rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json\nError: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n","stderr":"Error: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n"}
+2026-05-11T01:02:00.359Z [[31merror[39m] Execution attempt failed {"attempt":1,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: Command failed: /Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove --rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json\nError: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n"}
+2026-05-11T01:02:05.361Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10829957,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T01:02:05.363Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json"}
+2026-05-11T01:02:06.579Z [[31merror[39m] Proof generation failed {"error":"Command failed: /Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove --rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json\nError: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n","stderr":"Error: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n"}
+2026-05-11T01:02:06.579Z [[31merror[39m] Execution attempt failed {"attempt":2,"max":3,"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","error":"Error: SP1 proof generation failed: Command failed: /Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove --rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10829957 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10829957.json\nError: Failed to fetch Ethereum proof data\n\nCaused by:\n    Odd number of digits\n"}
+2026-05-11T01:02:13.642Z [[32minfo[39m] Shutting down monitor...
