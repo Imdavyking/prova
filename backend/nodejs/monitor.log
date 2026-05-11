@@ -6498,3 +6498,186 @@ thread 'tokio-rt-worker' (15133326) panicked at /Users/dave/.cargo/registry/src/
 digest word should fit in u32: TryFromIntError(())
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 2026-05-11T08:37:26.766Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T08:42:09.499Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T08:42:09.500Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T08:42:09.536Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T08:42:09.538Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T08:42:09.538Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T08:42:09.538Z [[32minfo[39m] Initialized proof generator
+2026-05-11T08:42:09.544Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T08:42:09.545Z [[32minfo[39m] Initialized registry loader
+2026-05-11T08:42:09.545Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T08:42:10.253Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T08:42:10.253Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T08:42:10.256Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T08:42:10.258Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T08:42:11.140Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10831902,"triggered":true}
+2026-05-11T08:42:11.141Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10831902}
+2026-05-11T08:42:11.141Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T08:42:11.141Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831902,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T08:42:11.142Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831902,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T08:42:11.143Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10831902 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10831902.json"}
+2026-05-11T08:42:12.536Z [[32minfo[39m] [prover] 🔍 Fetching Ethereum state at blocks 10831902...
+2026-05-11T08:42:12.537Z [[32minfo[39m] [prover]   Fetching block header and account proof from Ethereum node...
+2026-05-11T08:42:14.052Z [[32minfo[39m] [prover] ✓ Block header fetched. State root: 0xc9a1859753334d52e086fe2ca58677121ec60fb9c815a9317412777f6d1ab159
+✓ Account proof fetched (9 nodes)
+2026-05-11T08:42:14.053Z [[32minfo[39m] [prover] ⚡ Generating ZK proof (this takes ~60-120 seconds locally)...
+  Using local CPU prover...
+2026-05-11T08:42:35.856Z [[32minfo[39m] [prover] stderr: 
+stderr: thread '<unnamed>' (1) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-zkvm-4.2.1/src/syscalls/memory.rs:51:9:
+stderr: Memory limit exceeded (0x78000000)
+stderr: stack backtrace:
+stderr: note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+stderr: Memory limit exceeded (0x78000000)
+2026-05-11T08:42:35.857Z [[32minfo[39m] [prover] 
+thread 'tokio-rt-worker' (15167560) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
+digest word should fit in u32: TryFromIntError(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-05-11T08:43:06.623Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T08:44:07.660Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T08:44:07.661Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T08:44:07.703Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T08:44:07.705Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T08:44:07.706Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T08:44:07.706Z [[32minfo[39m] Initialized proof generator
+2026-05-11T08:44:07.716Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T08:44:07.717Z [[32minfo[39m] Initialized registry loader
+2026-05-11T08:44:07.717Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T08:44:08.397Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T08:44:08.398Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T08:44:08.401Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T08:44:08.404Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T08:44:09.142Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10831911,"triggered":true}
+2026-05-11T08:44:09.143Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10831911}
+2026-05-11T08:44:09.143Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T08:44:09.143Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831911,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T08:44:09.144Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831911,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T08:44:09.145Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10831911 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10831911.json"}
+2026-05-11T08:44:12.940Z [[32minfo[39m] [prover] 🔍 Fetching Ethereum state at blocks 10831911...
+2026-05-11T08:44:12.941Z [[32minfo[39m] [prover]   Fetching block header and account proof from Ethereum node...
+2026-05-11T08:44:14.453Z [[32minfo[39m] [prover] ✓ Block header fetched. State root: 0x4e75c2a3e86b6a72baee3b8ed0a4121a2cbe4854cbdf204f26645daa2ad67a6b
+✓ Account proof fetched (9 nodes)
+2026-05-11T08:44:14.455Z [[32minfo[39m] [prover] ⚡ Generating ZK proof (this takes ~60-120 seconds locally)...
+  Using local CPU prover...
+2026-05-11T08:44:38.081Z [[32minfo[39m] [prover] stderr: 
+stderr: thread '<unnamed>' (1) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-zkvm-4.2.1/src/syscalls/memory.rs:51:9:
+stderr: Memory limit exceeded (0x78000000)
+stderr: stack backtrace:
+stderr: note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+stderr: Memory limit exceeded (0x78000000)
+2026-05-11T08:44:38.084Z [[32minfo[39m] [prover] 
+thread 'tokio-rt-worker' (15181296) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
+digest word should fit in u32: TryFromIntError(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-05-11T08:44:48.699Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T08:45:28.386Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T08:45:28.388Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T08:45:28.424Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T08:45:28.426Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T08:45:28.426Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T08:45:28.426Z [[32minfo[39m] Initialized proof generator
+2026-05-11T08:45:28.432Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T08:45:28.433Z [[32minfo[39m] Initialized registry loader
+2026-05-11T08:45:28.433Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T08:45:29.176Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T08:45:29.176Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T08:45:29.179Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T08:45:29.181Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T08:45:30.076Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10831917,"triggered":true}
+2026-05-11T08:45:30.077Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10831917}
+2026-05-11T08:45:30.077Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T08:45:30.077Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831917,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T08:45:30.077Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831917,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T08:45:30.078Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10831917 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10831917.json"}
+2026-05-11T08:45:30.994Z [[32minfo[39m] [prover] 🔍 Fetching Ethereum state at blocks 10831917...
+2026-05-11T08:45:30.995Z [[32minfo[39m] [prover]   Fetching block header and account proof from Ethereum node...
+2026-05-11T08:45:32.490Z [[32minfo[39m] [prover] ✓ Block header fetched. State root: 0x65ebde82ea30cd088aa18f723d97f03331a6abdfbd34b5095218e283a836095d
+✓ Account proof fetched (9 nodes)
+2026-05-11T08:45:32.491Z [[32minfo[39m] [prover] ⚡ Generating ZK proof (this takes ~60-120 seconds locally)...
+  Using local CPU prover...
+2026-05-11T08:45:54.310Z [[32minfo[39m] [prover] stderr: 
+stderr: thread '<unnamed>' (1) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-zkvm-4.2.1/src/syscalls/memory.rs:51:9:
+stderr: Memory limit exceeded (0x78000000)
+stderr: stack backtrace:
+stderr: note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+stderr: Memory limit exceeded (0x78000000)
+2026-05-11T08:45:54.311Z [[32minfo[39m] [prover] 
+thread 'tokio-rt-worker' (15192854) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
+digest word should fit in u32: TryFromIntError(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-05-11T08:49:45.398Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T08:49:47.908Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T08:49:47.909Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T08:49:47.944Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T08:49:47.946Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T08:49:47.946Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T08:49:47.947Z [[32minfo[39m] Initialized proof generator
+2026-05-11T08:49:47.953Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T08:49:47.953Z [[32minfo[39m] Initialized registry loader
+2026-05-11T08:49:47.953Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T08:49:48.610Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T08:49:48.610Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T08:49:48.613Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T08:49:48.615Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T08:49:49.385Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10831934,"triggered":true}
+2026-05-11T08:49:49.385Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10831934}
+2026-05-11T08:49:49.385Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T08:49:49.386Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831934,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T08:49:49.386Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831934,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T08:49:49.387Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10831934 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10831934.json"}
+2026-05-11T08:49:50.986Z [[32minfo[39m] [prover] 🔍 Fetching Ethereum state at blocks 10831934...
+2026-05-11T08:49:50.987Z [[32minfo[39m] [prover]   Fetching block header and account proof from Ethereum node...
+2026-05-11T08:49:52.543Z [[32minfo[39m] [prover] ✓ Block header fetched. State root: 0xb7284d88259658dd943260c1f872200c56f7ce3583d24a8e8e06819c7344a2da
+✓ Account proof fetched (9 nodes)
+2026-05-11T08:49:52.544Z [[32minfo[39m] [prover] ⚡ Generating ZK proof (this takes ~60-120 seconds locally)...
+  Using local CPU prover...
+2026-05-11T08:50:10.995Z [[32minfo[39m] [prover] ✓ Prover client initialized
+2026-05-11T08:50:12.582Z [[32minfo[39m] [prover] ✓ Proving key loaded. Verifying key hash: 0x307830303061376539323037626261303036346631623364393931343061333231656634653639393339623433306132346536613566363337353036373635396630
+2026-05-11T08:50:13.909Z [[32minfo[39m] [prover] stderr: 
+stderr: thread '<unnamed>' (1) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-zkvm-4.2.1/src/syscalls/memory.rs:51:9:
+stderr: Memory limit exceeded (0x78000000)
+stderr: stack backtrace:
+stderr: note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+stderr: Memory limit exceeded (0x78000000)
+2026-05-11T08:50:13.910Z [[32minfo[39m] [prover] 
+thread 'tokio-rt-worker' (15218746) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
+digest word should fit in u32: TryFromIntError(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-05-11T08:50:23.204Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T08:53:35.342Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T08:53:35.344Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T08:53:35.379Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T08:53:35.381Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T08:53:35.381Z [[32minfo[39m] SP1 prover binary {"path":"/Users/dave/Work/prova/backend/prova/sp1-prover/target/release/prova-prove"}
+2026-05-11T08:53:35.381Z [[32minfo[39m] Initialized proof generator
+2026-05-11T08:53:35.388Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T08:53:35.389Z [[32minfo[39m] Initialized registry loader
+2026-05-11T08:53:35.389Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T08:53:36.143Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T08:53:36.143Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T08:53:36.146Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T08:53:36.148Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T08:53:37.004Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.0000157500004095 ETH","threshold":"0.0001 ETH","block":10831951,"triggered":true}
+2026-05-11T08:53:37.004Z [[32minfo[39m] 🔔 Condition triggered! {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","balance":"15750000409500","threshold":"100000000000000","block":10831951}
+2026-05-11T08:53:37.004Z [[32minfo[39m] Stopped watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7"}
+2026-05-11T08:53:37.005Z [[32minfo[39m] ⚡ Processing trigger {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831951,"balance":"15750000409500","threshold":"100000000000000"}
+2026-05-11T08:53:37.005Z [[32minfo[39m] Generating ZK proof... {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","block":10831951,"wallet":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","threshold":"100000000000000"}
+2026-05-11T08:53:37.006Z [[32minfo[39m] Running SP1 prover... {"args":"--rpc-url https://eth-sepolia.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7 --block 10831951 --wallet 0xefb85bcdfb03e9299a680993ab35194acb8dadda --threshold 100000000000000 --rule-id 0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7 --output /var/folders/jp/khksd0qj2y9__hq__t12bs5h0000gn/T/proof_b2a4a3f3_10831951.json"}
+2026-05-11T08:53:38.300Z [[32minfo[39m] [prover] 🔍 Fetching Ethereum state at blocks 10831951...
+2026-05-11T08:53:38.300Z [[32minfo[39m] [prover]   Fetching block header and account proof from Ethereum node...
+2026-05-11T08:53:39.763Z [[32minfo[39m] [prover] ✓ Block header fetched. State root: 0xf68391497ee57f8317dca5dd28bb0aebf15b8af2a71e71d4a89137df652f1870
+✓ Account proof fetched (9 nodes)
+2026-05-11T08:53:39.763Z [[32minfo[39m] [prover] ⚡ Generating ZK proof (this takes ~60-120 seconds locally)...
+  Using local CPU prover...
+2026-05-11T08:53:59.439Z [[32minfo[39m] [prover] ✓ Prover client initialized
+2026-05-11T08:54:00.980Z [[32minfo[39m] [prover] ✓ Proving key loaded. Verifying key hash: 0x307830303061376539323037626261303036346631623364393931343061333231656634653639393339623433306132346536613566363337353036373635396630
+2026-05-11T08:54:02.385Z [[32minfo[39m] [prover] stderr: 
+stderr: thread '<unnamed>' (1) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-zkvm-4.2.1/src/syscalls/memory.rs:51:9:
+stderr: Memory limit exceeded (0x78000000)
+stderr: stack backtrace:
+stderr: note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+stderr: Memory limit exceeded (0x78000000)
+2026-05-11T08:54:02.385Z [[32minfo[39m] [prover] 
+thread 'tokio-rt-worker' (15239345) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
+digest word should fit in u32: TryFromIntError(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
