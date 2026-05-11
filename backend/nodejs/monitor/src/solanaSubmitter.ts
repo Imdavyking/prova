@@ -4,7 +4,7 @@ import { Connection, Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import {
   RescueCipher,
-  getMXEPublicKeyWithRetry,
+  getMXEPublicKey,
   getArciumEnv,
   awaitComputationFinalization,
   getComputationAccAddress,
@@ -50,12 +50,10 @@ export class SolanaSubmitter {
 
     this.registryProgram = new anchor.Program(
       RegistryIDL as anchor.Idl,
-      new PublicKey(config.registryProgramId),
       this.provider,
     );
     this.executorProgram = new anchor.Program(
       ExecutorIDL as anchor.Idl,
-      new PublicKey(config.executorProgramId),
       this.provider,
     );
     this.arciumEnv = getArciumEnv();
@@ -131,14 +129,20 @@ export class SolanaSubmitter {
     nonce: anchor.BN;
   }> {
     // Exact pattern from Arcium hello-world docs
-    const mxePublicKey = await getMXEPublicKeyWithRetry(
+    const mxePublicKey = await getMXEPublicKey(
       this.provider as anchor.AnchorProvider,
       this.executorProgram.programId,
     );
+    if (!mxePublicKey) {
+      throw new Error("Failed to fetch Arcium MXE public key");
+    }
 
     const privateKey = x25519.utils.randomSecretKey();
     const pubKey = x25519.getPublicKey(privateKey);
     const sharedSecret = x25519.getSharedSecret(privateKey, mxePublicKey);
+    if (!sharedSecret) {
+      throw new Error("Failed to derive shared secret for Arcium encryption");
+    }
 
     const nonceBuf = randomBytes(16);
     const cipher = new RescueCipher(sharedSecret);
