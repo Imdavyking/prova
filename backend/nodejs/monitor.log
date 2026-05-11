@@ -4993,3 +4993,18 @@
 2026-05-11T00:31:21.893Z [[32minfo[39m] Loaded 0 active rules
 2026-05-11T00:31:21.896Z [[32minfo[39m] ETH watcher started {"interval":12000}
 2026-05-11T00:31:21.898Z [[32minfo[39m] ✓ Monitor running {"activeRules":0,"polling":"every 12s"}
+2026-05-11T00:50:16.006Z [[32minfo[39m] Shutting down monitor...
+2026-05-11T00:50:19.262Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:50:19.263Z [[32minfo[39m] Config {"solanaRpc":"https://api.devnet.solana.com","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:50:19.313Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:50:19.316Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:50:19.316Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:50:19.325Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:50:19.326Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:50:19.326Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:50:20.234Z [[32minfo[39m] Loaded 1 active rules
+2026-05-11T00:50:20.234Z [[32minfo[39m] Watching rule {"ruleId":"0xb2a4a3f340d2625cecf59cb974de8cd3024a8c4786a5640cc5238fc5af98eeb7","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda"}
+2026-05-11T00:50:20.237Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:50:20.240Z [[32minfo[39m] ✓ Monitor running {"activeRules":1,"polling":"every 12s"}
+2026-05-11T00:50:21.102Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.004968105608240487 ETH","threshold":"0.0001 ETH","block":10829912,"triggered":false}
+2026-05-11T00:50:33.942Z [[32minfo[39m] Balance check {"ruleId":"0xb2a4a3f3","address":"0xefb85bcdfb03e9299a680993ab35194acb8dadda","balance":"0.004968105608240487 ETH","threshold":"0.0001 ETH","block":10829913,"triggered":false}
