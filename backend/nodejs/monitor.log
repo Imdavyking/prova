@@ -1,0 +1,11 @@
+2026-05-11T00:20:26.825Z [[32minfo[39m] 🚀 Prova Monitor starting...
+2026-05-11T00:20:26.827Z [[32minfo[39m] Config {"solanaRpc":"https://solana-devnet.g.alchemy.com/v2/pkf1MmFFP3jrtqw0BR7vCInGmCeUFwO7","proverMode":"local","cluster":"devnet"}
+2026-05-11T00:20:26.869Z [[32minfo[39m] Monitor keypair {"pubkey":"FUPu8ecwzzRQgPLXhnsDaCwpiTVEEpXcd1rYe4sMLxvV"}
+2026-05-11T00:20:26.869Z [[32minfo[39m] Initialized Ethereum watcher
+2026-05-11T00:20:26.869Z [[32minfo[39m] Initialized proof generator
+2026-05-11T00:20:26.875Z [[32minfo[39m] Initialized Solana submitter
+2026-05-11T00:20:26.876Z [[32minfo[39m] Initialized registry loader
+2026-05-11T00:20:26.876Z [[32minfo[39m] Loading active rules from registry...
+2026-05-11T00:20:27.811Z [[31merror[39m] Failed to load rules {"error":"Error: 400 Bad Request: {\"jsonrpc\":\"2.0\",\"id\":\"4b663997-6a17-4e68-8003-5a5b8fd8a8bd\",\"error\":{\"code\":-32600,\"message\":\"getProgramAccounts is not available on the Free tier - upgrade to Pay As You Go, or Enterprise for access.\"}}"}
+2026-05-11T00:20:27.816Z [[32minfo[39m] ETH watcher started {"interval":12000}
+2026-05-11T00:20:27.818Z [[32minfo[39m] ✓ Monitor running {"activeRules":0,"polling":"every 12s"}
