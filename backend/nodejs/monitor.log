@@ -6497,3 +6497,4 @@ stderr: Memory limit exceeded (0x78000000)
 thread 'tokio-rt-worker' (15133326) panicked at /Users/dave/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sp1-core-executor-6.1.0/src/vm/syscall/commit.rs:10:46:
 digest word should fit in u32: TryFromIntError(())
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-05-11T08:37:26.766Z [[32minfo[39m] Shutting down monitor...
